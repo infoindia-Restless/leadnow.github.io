@@ -1802,7 +1802,7 @@
       // ── Google Apps Script Web App URL ──────────────────────────────────────
       // STEP: Replace the URL below with your own Apps Script deployment URL
       // See instructions at the bottom of this page
-      const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbySFvBRMePXq1FkKMDioUBH8zu0P6jGKHbiVNL15b-Ow3Gw9Xj_N8WPjRIXGCCXGn81Cg/exec';
+      const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbypnhzklb7Ql16qgBgRul93BTVOJc9x0lvuekJSwSrVZZQq3MZwitKB4YUOjwD9EVOPCA/exec';
 
       document.getElementById('involveForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -1836,19 +1836,20 @@
         }
 
         try {
-          const formData = new FormData();
-          formData.append('name', data.name);
-          formData.append('email', data.email);
-          formData.append('phone', data.phone);
-          formData.append('city', data.city);
-          formData.append('interest', data.interest);
-          formData.append('message', data.message);
-          formData.append('submitted', data.submitted);
+          const params = new URLSearchParams();
+          params.append('name', data.name);
+          params.append('email', data.email);
+          params.append('phone', data.phone);
+          params.append('city', data.city);
+          params.append('interest', data.interest);
+          params.append('message', data.message);
+          params.append('submitted', data.submitted);
 
           await fetch(SHEETS_URL, {
             method: 'POST',
             mode: 'no-cors',
-            body: formData
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
           });
           status.className = 'form-status success';
           status.textContent = '\u2713 Message sent! We will be in touch soon.';
