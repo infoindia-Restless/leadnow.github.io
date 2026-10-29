@@ -87,4 +87,31 @@
     });
     document.addEventListener('click', function (e) { if (!orbit.contains(e.target)) setActive(''); });
   }
+
+  // Lead Forward: animated wheel, notes cycle around it
+  var stage = document.querySelector('.eco-stage');
+  if (stage) {
+    var notes = Array.prototype.slice.call(stage.querySelectorAll('.eco-note'));
+    var keys = notes.map(function (n) { return n.getAttribute('data-k'); });
+    var bar = document.createElement('div'); bar.className = 'eco-progress'; bar.setAttribute('aria-hidden', 'true');
+    keys.forEach(function () { bar.appendChild(document.createElement('span')); });
+    stage.appendChild(bar);
+    var idx = 0, ecoTimer = null, paused = false;
+    var show = function (i) {
+      idx = (i + keys.length) % keys.length;
+      stage.setAttribute('data-active', keys[idx]);
+      notes.forEach(function (n, j) { n.classList.toggle('on', j === idx); n.setAttribute('aria-pressed', j === idx ? 'true' : 'false'); });
+      Array.prototype.forEach.call(bar.children, function (b, j) { b.classList.toggle('on', j === idx); });
+    };
+    var run = function () { clearInterval(ecoTimer); ecoTimer = setInterval(function () { if (!paused) show(idx + 1); }, 3800); };
+    stage.addEventListener('mouseenter', function () { paused = true; });
+    stage.addEventListener('mouseleave', function () { paused = false; });
+    stage.addEventListener('focusin', function () { paused = true; });
+    stage.addEventListener('focusout', function () { paused = false; });
+    notes.forEach(function (n, j) { n.addEventListener('click', function () { show(j); run(); }); });
+    stage.querySelectorAll('.eg').forEach(function (g) {
+      g.addEventListener('click', function () { var j = keys.indexOf(g.getAttribute('data-k')); if (j > -1) { show(j); run(); } });
+    });
+    show(0); run();
+  }
 })();
