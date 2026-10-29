@@ -40,6 +40,13 @@
     var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbypnhzklb7Ql16qgBgRul93BTVOJc9x0lvuekJSwSrVZZQq3MZwitKB4YUOjwD9EVOPCA/exec';
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      var host = location.hostname;
+      if (!/leadnowfoundation\.org$|github\.io$|^localhost$|^127\.0\.0\.1$/.test(host)) {
+        var st = document.getElementById('formStatus');
+        st.className = 'form-status ok';
+        st.textContent = 'This is a preview, so messages are not sent from here. On leadnowfoundation.org this form sends your message to the team.';
+        return;
+      }
       var btn = document.getElementById('submitBtn');
       var label = btn.querySelector('.label');
       var status = document.getElementById('formStatus');
@@ -142,34 +149,89 @@
     }
   }
 
-  // About: vision and mission type themselves out when scrolled into view
-  var vm = document.querySelector('[data-typewriter]');
-  var reduceTw = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (vm && !reduceTw && 'IntersectionObserver' in window) {
-    var lines = Array.prototype.slice.call(vm.querySelectorAll('.vm-text'));
-    vm.classList.add('tw-on');
-    var caret = document.createElement('span'); caret.className = 'caret';
-    var typeLine = function (li, done) {
-      var full = lines[li].querySelector('.tw-ghost').textContent;
-      var out = lines[li].querySelector('.tw-typed');
-      var i = 0;
-      out.textContent = ''; out.appendChild(caret);
-      var step = function () {
-        i++;
-        out.textContent = full.slice(0, i); out.appendChild(caret);
-        if (i < full.length) setTimeout(step, full.charAt(i - 1) === ',' ? 220 : 26 + Math.random() * 28);
-        else setTimeout(done, 700);
-      };
-      setTimeout(step, 350);
-    };
-    var started = false;
-    var io = new IntersectionObserver(function (entries) {
-      if (started || !entries.some(function (e) { return e.isIntersecting; })) return;
-      started = true; io.disconnect();
-      typeLine(0, function () {
-        typeLine(1, function () { /* caret keeps blinking at the end of the mission */ });
+  // About: vision and mission reveal word by word, then a highlighter sweeps the key phrase
+  var vm = document.querySelector('[data-reveal]');
+  var reduceRv = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (vm && !reduceRv && 'IntersectionObserver' in window) {
+    var rows = Array.prototype.slice.call(vm.querySelectorAll('.vm-row'));
+    var wrapWords = function (node, counter) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+        if (child.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            var w = document.createElement('span'); w.className = 'w'; w.textContent = part;
+            w.style.setProperty('--i', counter.n++); frag.appendChild(w);
+          });
+          node.replaceChild(frag, child);
+        } else if (child.nodeType === 1) { wrapWords(child, counter); }
       });
-    }, { threshold: 0.35 });
-    io.observe(vm);
+    };
+    var delay = 0;
+    rows.forEach(function (row) {
+      var text = row.querySelector('.vm-text');
+      var counter = { n: 0 };
+      wrapWords(text, counter);
+      row.style.setProperty('--d0', delay + 'ms');
+      var hl = text.querySelector('mark.hl');
+      var doneAt = delay + counter.n * 45 + 500;
+      if (hl) hl.style.setProperty('--hd', doneAt + 'ms');
+      delay = doneAt + 500;
+    });
+    vm.classList.add('rv-on', 'rv-prep');
+    void vm.offsetWidth;
+    vm.classList.remove('rv-prep');
+    var ioRv = new IntersectionObserver(function (entries) {
+      if (!entries.some(function (e) { return e.isIntersecting; })) return;
+      ioRv.disconnect();
+      requestAnimationFrame(function () { rows.forEach(function (r) { r.classList.add('in'); }); });
+    }, { threshold: 0.3 });
+    ioRv.observe(vm);
+  }
+
+  // About: highlighter sweeps under each value name
+  var vlist = document.querySelector('[data-vhl]');
+  var reduceV = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (vlist && !reduceV && 'IntersectionObserver' in window) {
+    vlist.classList.add('vhl-on', 'vhl-prep'); void vlist.offsetWidth; vlist.classList.remove('vhl-prep');
+    var ioV = new IntersectionObserver(function (entries) {
+      if (!entries.some(function (e) { return e.isIntersecting; })) return;
+      ioV.disconnect(); vlist.classList.add('in');
+    }, { threshold: 0.25 });
+    ioV.observe(vlist);
+  }
+
+  // Highlighter sweep on headings marked data-sweep
+  var reduceS = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceS && 'IntersectionObserver' in window) {
+    document.querySelectorAll('[data-sweep]').forEach(function (m) {
+      m.classList.add('sw-on', 'sw-prep'); void m.offsetWidth; m.classList.remove('sw-prep');
+      var o = new IntersectionObserver(function (es) {
+        if (es.some(function (e) { return e.isIntersecting; })) { o.disconnect(); m.classList.add('in'); }
+      }, { threshold: 0.6 });
+      o.observe(m);
+    });
+  }
+
+  // Home headline: the last word deletes itself and types the next, on a loop
+  var rot = document.querySelector('em.rot[data-words]');
+  var reduceR = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (rot && !reduceR) {
+    var words = rot.getAttribute('data-words').split('|');
+    var wi = 0, text = words[0];
+    var caretR = document.createElement('span'); caretR.className = 'rcaret';
+    var render = function () { rot.textContent = text; rot.appendChild(caretR); };
+    render();
+    var erase = function () {
+      if (text.length) { text = text.slice(0, -1); render(); setTimeout(erase, 45); }
+      else { wi = (wi + 1) % words.length; setTimeout(type, 250); }
+    };
+    var type = function () {
+      var target = words[wi];
+      if (text.length < target.length) { text = target.slice(0, text.length + 1); render(); setTimeout(type, 85); }
+      else setTimeout(erase, 2200);
+    };
+    setTimeout(erase, 2600);
   }
 })();
