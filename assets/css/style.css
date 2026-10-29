@@ -895,3 +895,33 @@ body::before { background: var(--ink); }
 .value h3.vh .pico { width: 56px; height: 56px; }
 .priority .pico { width: 84px; height: 84px; }
 .value:has(h3.vh) { align-items: center; }
+
+/* ── Priority illustrations ────────────────────────── */
+.pillus { display: block; width: 168px; height: 168px; overflow: visible; }
+.pillus-md { width: 128px; height: 128px; }
+.priority { justify-items: center; text-align: center; padding-top: 2.5rem; }
+.priority + .priority { padding-left: 2rem; }
+.priority { padding-right: 2rem; }
+.priority:first-child { padding-left: 0; }
+.priority:last-child { padding-right: 0; }
+.priority .pillus { margin-bottom: 0.5rem; transition: transform 0.4s var(--ease); }
+.priority:hover .pillus { transform: scale(1.05); }
+.priority .link-go { justify-self: center; }
+@media (max-width: 860px) { .priority, .priority + .priority, .priority:first-child, .priority:last-child { padding: 2rem 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .pillus .fl { animation: ilFloat 4s ease-in-out infinite; }
+  .pillus .fl-2 { animation-duration: 5s; animation-delay: -1.5s; }
+  .pillus .fl-3 { animation-duration: 4.5s; animation-delay: -3s; }
+  @keyframes ilFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  .pillus .tw { animation: ilTwinkle 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .pillus .tw-2 { animation-delay: -0.8s; } .pillus .tw-3 { animation-delay: -1.6s; }
+  @keyframes ilTwinkle { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.45; transform: scale(0.75); } }
+  .pillus .spin { animation: ilSpin 24s linear infinite; transform-box: fill-box; transform-origin: center; }
+  @keyframes ilSpin { to { transform: rotate(360deg); } }
+  .pillus .sway { animation: ilSway 3.6s ease-in-out infinite; transform-box: view-box; transform-origin: 58px 84px; }
+  @keyframes ilSway { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+  .pillus .wind { animation: ilWind 2.8s ease-in-out infinite; }
+  @keyframes ilWind { 0%, 100% { transform: translateX(0); opacity: 1; } 50% { transform: translateX(4px); opacity: 0.6; } }
+  .pillus .beat { animation: ilBeat 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  @keyframes ilBeat { 0%, 100% { transform: scale(1); } 20% { transform: scale(1.15); } 40% { transform: scale(1); } }
+}
