@@ -88,30 +88,57 @@
     document.addEventListener('click', function (e) { if (!orbit.contains(e.target)) setActive(''); });
   }
 
-  // Lead Forward: animated wheel, notes cycle around it
+  // Lead Forward: a beam sweeps round the wheel; each part lights up as it passes
   var stage = document.querySelector('.eco-stage');
   if (stage) {
     var notes = Array.prototype.slice.call(stage.querySelectorAll('.eco-note'));
-    var keys = notes.map(function (n) { return n.getAttribute('data-k'); });
-    var bar = document.createElement('div'); bar.className = 'eco-progress'; bar.setAttribute('aria-hidden', 'true');
-    keys.forEach(function () { bar.appendChild(document.createElement('span')); });
-    stage.appendChild(bar);
-    var idx = 0, ecoTimer = null, paused = false;
-    var show = function (i) {
-      idx = (i + keys.length) % keys.length;
-      stage.setAttribute('data-active', keys[idx]);
-      notes.forEach(function (n, j) { n.classList.toggle('on', j === idx); n.setAttribute('aria-pressed', j === idx ? 'true' : 'false'); });
-      Array.prototype.forEach.call(bar.children, function (b, j) { b.classList.toggle('on', j === idx); });
+    var beam = stage.querySelector('.beam');
+    // sectors in degrees, clockwise from 3 o'clock (SVG convention); centre of each sector used for jumps
+    var sectors = [
+      { k: 'yrc', from: -30, to: 40 },
+      { k: 'parent', from: 40, to: 110 },
+      { k: 'comm', from: 110, to: 155 },
+      { k: 'school', from: 155, to: 215 },
+      { k: 'partner', from: 215, to: 330 }
+    ];
+    var PERIOD = 18000; // ms per full turn
+    var angle = -20, last = null, paused = false, current = '';
+    var keyFor = function (deg) {
+      var d = ((deg % 360) + 360) % 360; if (d >= 330) d -= 360;
+      for (var i = 0; i < sectors.length; i++) if (d >= sectors[i].from && d < sectors[i].to) return sectors[i].k;
+      return 'yrc';
     };
-    var run = function () { clearInterval(ecoTimer); ecoTimer = setInterval(function () { if (!paused) show(idx + 1); }, 3800); };
+    var setActive = function (k) {
+      if (k === current) return; current = k;
+      stage.setAttribute('data-active', k);
+      notes.forEach(function (n) { var on = n.getAttribute('data-k') === k; n.classList.toggle('on', on); n.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    };
+    var draw = function () {
+      if (beam) beam.setAttribute('transform', 'rotate(' + (angle + 23).toFixed(2) + ' 320 290)');
+      setActive(keyFor(angle));
+    };
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var tick = function (t) {
+      if (last !== null && !paused) angle += (t - last) * 360 / PERIOD;
+      last = t; draw(); requestAnimationFrame(tick);
+    };
+    var jump = function (k) {
+      for (var i = 0; i < sectors.length; i++) if (sectors[i].k === k) { angle = (sectors[i].from + sectors[i].to) / 2 - 10; break; }
+      draw();
+    };
     stage.addEventListener('mouseenter', function () { paused = true; });
     stage.addEventListener('mouseleave', function () { paused = false; });
     stage.addEventListener('focusin', function () { paused = true; });
     stage.addEventListener('focusout', function () { paused = false; });
-    notes.forEach(function (n, j) { n.addEventListener('click', function () { show(j); run(); }); });
-    stage.querySelectorAll('.eg').forEach(function (g) {
-      g.addEventListener('click', function () { var j = keys.indexOf(g.getAttribute('data-k')); if (j > -1) { show(j); run(); } });
-    });
-    show(0); run();
+    notes.forEach(function (n) { n.addEventListener('click', function () { jump(n.getAttribute('data-k')); }); });
+    stage.querySelectorAll('.eg').forEach(function (g) { g.addEventListener('click', function () { jump(g.getAttribute('data-k')); }); });
+    if (reduce) {
+      var order = sectors.map(function (x) { return x.k; }), i = 0;
+      if (beam) beam.style.display = 'none';
+      setActive(order[0]);
+      setInterval(function () { if (!paused) { i = (i + 1) % order.length; setActive(order[i]); } }, 4000);
+    } else {
+      draw(); requestAnimationFrame(tick);
+    }
   }
 })();
