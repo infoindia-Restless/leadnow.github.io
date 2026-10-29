@@ -925,3 +925,4 @@ body::before { background: var(--ink); }
   .pillus .beat { animation: ilBeat 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
   @keyframes ilBeat { 0%, 100% { transform: scale(1); } 20% { transform: scale(1.15); } 40% { transform: scale(1); } }
 }
+.h-formal { font-size: var(--step-2); font-weight: 700; letter-spacing: -0.015em; }
