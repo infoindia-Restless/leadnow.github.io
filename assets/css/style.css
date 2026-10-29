@@ -837,3 +837,25 @@ body::before { background: var(--ink); }
 .k-comm { background: #CFE6E4; border-color: var(--teal); }
 .k-school { background: var(--ink); }
 .k-parent { background: var(--teal); }
+/* icon badges on the wheel */
+.eco-svg .ico { fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.eco-svg .badge.e-school circle { fill: var(--ink); }
+.eco-svg .i-school { stroke: #fff; }
+.eco-svg .badge.e-partner circle { fill: #fff; stroke: var(--coral); stroke-width: 3; }
+.eco-svg .i-partner { stroke: var(--coral); }
+.eco-svg .badge.e-parent circle { fill: var(--teal); }
+.eco-svg .i-parent { stroke: #fff; }
+.eco-svg .i-comm { stroke: var(--teal); stroke-width: 2.1; }
+.eco-svg .i-yrc { stroke: var(--sea); stroke-width: 2.2; }
+.eco-svg .badge { transform-box: fill-box; transform-origin: center; }
+.eco-stage[data-active="school"] .badge.e-school,
+.eco-stage[data-active="parent"] .badge.e-parent,
+.eco-stage[data-active="partner"] .badge.e-partner { filter: drop-shadow(0 0 7px rgba(232,71,86,0.6)); }
+.eco-stage[data-active="partner"] .badge.e-partner circle { fill: var(--coral); }
+.eco-stage[data-active="partner"] .i-partner { stroke: #fff; }
+.eco-stage[data-active="comm"] .i-comm { stroke: var(--coral); }
+@media (prefers-reduced-motion: no-preference) {
+  .eco-svg .badge.e-school { animation: none; }
+  .eco-svg .badge.e-parent, .eco-svg .badge.e-partner { animation: bob 2.6s ease-in-out infinite; animation-delay: var(--d, 0s); }
+}
+.k-school { border-radius: 50%; }
