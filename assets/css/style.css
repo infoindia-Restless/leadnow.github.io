@@ -621,3 +621,6 @@ body::before { background: var(--ink); }
 }
 .feature-media img { height: auto; }
 .photo-split-img { min-height: 0; }
+.footer-grid { grid-template-columns: minmax(0, 1.6fr) repeat(2, minmax(0, 1fr)); }
+@media (max-width: 900px) { .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
