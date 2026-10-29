@@ -30,7 +30,7 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="index.html" aria-label="Lead Now Foundation home"><img src="assets/img/logo.png" alt="LeadNow Foundation" width="1205" height="320"></a>
+    <a class="brand" href="index.html" aria-label="Lead Now Foundation home"><img src="assets/img/logo-white.png" alt="LeadNow Foundation" width="1205" height="320"></a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span></button>
     <nav class="nav" id="site-nav" aria-label="Main">
       <a href="index.html" aria-current="page">Home</a>
@@ -43,30 +43,38 @@
   </div>
 </header>
 <main id="main">
-<section class="hero">
-  <div class="wrap">
-    <div>
-      <span class="eyebrow rise">Youth-centred social impact · New Delhi</span>
-      <h1 class="rise rise-2">Young people are not beneficiaries. They are <em>leaders.</em></h1>
-      <p class="lede rise rise-3">Lead Now Foundation builds the leadership, skills and agency of young people, so they can co-create the futures of their communities and help shape the systems around them.</p>
-      <div class="hero-actions rise rise-3">
-        <a class="btn btn--ink" href="about.html">Who we are <span class="go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span></a>
-        <a class="btn btn--line" href="theory-of-change.html">Our Theory of Change</a>
-      </div>
-      <p class="hero-tag"><strong>Building Leaders. Transforming Communities.</strong></p>
+<section class="hero-show" aria-label="Photos from our work">
+  <div class="slideshow">
+    <div class="slides">
+      <div class="slide active"><img src="assets/img/youth-leadership-session.jpg" alt="A young woman speaks into a microphone while a peer holds up a chart of group ideas" width="1600" height="1066" style="object-position:50% 20%"></div>
+      <div class="slide"><img src="assets/img/youth-group.jpg" alt="A group of young people celebrating together after a session" width="1600" height="1200" style="object-position:50% 24%"></div>
+      <div class="slide"><img src="assets/img/digital-classroom.jpg" alt="A facilitator leads a digital learning session with a classroom of students" width="900" height="677" style="object-position:50% 50%"></div>
+      <div class="slide"><img src="assets/img/community-workshop.jpg" alt="Children holding up the posters they made at a community workshop" width="1600" height="901" style="object-position:50% 40%"></div>
     </div>
-    <div class="slideshow">
-      <div class="slides">
-        <div class="slide active"><img src="assets/img/youth-leadership-session.jpg" alt="A young woman speaks into a microphone while a peer holds up a chart of group ideas" width="1600" height="1066"></div>
-        <div class="slide"><img src="assets/img/youth-group.jpg" alt="A group of young people celebrating together after a session" width="1600" height="1200" loading="lazy"></div>
-        <div class="slide"><img src="assets/img/digital-classroom.jpg" alt="A facilitator leads a digital learning session with a classroom of students" width="900" height="677" loading="lazy"></div>
-        <div class="slide"><img src="assets/img/community-workshop.jpg" alt="Children holding up the posters they made at a community workshop" width="1600" height="901" loading="lazy"></div>
-      </div>
+    <div class="slide-controls">
+      <button type="button" class="slide-arrow prev" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6M11 6l-6 6 6 6"/></svg></button>
       <div class="slide-dots" role="group" aria-label="Choose photo">
         <button type="button" class="active" aria-label="Photo 1"></button>
         <button type="button" aria-label="Photo 2"></button>
         <button type="button" aria-label="Photo 3"></button>
         <button type="button" aria-label="Photo 4"></button>
+      </div>
+      <button type="button" class="slide-arrow next" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<section class="intro">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Youth-centred social impact · New Delhi</span>
+      <h1>Young people are not beneficiaries. They are <em>leaders.</em></h1>
+    </div>
+    <div class="intro-side">
+      <p class="lede">Lead Now Foundation builds the leadership, skills and agency of young people, so they can co-create the futures of their communities and help shape the systems around them.</p>
+      <div class="hero-actions">
+        <a class="btn btn--coral" href="about.html">Who we are <span class="go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span></a>
+        <a class="btn btn--ghost" href="theory-of-change.html">Our Theory of Change</a>
       </div>
     </div>
   </div>
@@ -121,9 +129,9 @@
   </div>
 </section>
 
-<section class="photo-band">
-  <img src="assets/img/youth-group.jpg" alt="" width="1600" height="1200" loading="lazy">
-  <div class="wrap">
+<section class="photo-split">
+  <div class="photo-split-img"><img src="assets/img/youth-group.jpg" alt="A group of young people celebrating together after a session" width="1600" height="1200" loading="lazy" style="object-position:50% 30%"></div>
+  <div class="photo-split-text">
     <blockquote>Change often begins quietly, in the moment a young person discovers that their voice matters.</blockquote>
     <cite>Our Theory of Change</cite>
   </div>

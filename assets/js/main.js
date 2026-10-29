@@ -28,6 +28,9 @@
     dots.forEach(function (d, i) {
       d.addEventListener('click', function () { clearInterval(timer); go(i); start(); });
     });
+    var prev = document.querySelector('.slide-arrow.prev'), next = document.querySelector('.slide-arrow.next');
+    if (prev) prev.addEventListener('click', function () { clearInterval(timer); go(current - 1); start(); });
+    if (next) next.addEventListener('click', function () { clearInterval(timer); go(current + 1); start(); });
     start();
   }
 
