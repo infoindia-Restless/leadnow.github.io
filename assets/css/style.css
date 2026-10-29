@@ -757,3 +757,62 @@ body::before { background: var(--ink); }
 .link-go.small .go { width: 1.8em; height: 1.8em; }
 .reach--solo { grid-template-columns: 1fr; }
 .reach--solo .reach-svg { max-width: 480px; }
+
+/* ── Animated ecosystem wheel (Lead Forward) ───────── */
+.eco-stage { position: relative; display: grid; justify-items: center; }
+.eco-stage .eco-figure { width: min(600px, 54%); }
+.eg { transition: opacity 0.6s ease; cursor: pointer; }
+.eco-stage[data-active="yrc"] .eg:not([data-k="yrc"]),
+.eco-stage[data-active="school"] .eg:not([data-k="school"]),
+.eco-stage[data-active="partner"] .eg:not([data-k="partner"]),
+.eco-stage[data-active="champ"] .eg:not([data-k="champ"]),
+.eco-stage[data-active="parent"] .eg:not([data-k="parent"]),
+.eco-stage[data-active="comm"] .eg:not([data-k="comm"]) { opacity: 0.32; }
+.eco-stage .eg[data-k="yrc"] .e-yrc { transition: filter 0.6s; }
+.eco-stage[data-active="yrc"] .e-yrc { filter: drop-shadow(0 0 14px rgba(232,71,86,0.55)); }
+.eco-svg .e-pulse { fill: none; stroke: var(--coral); stroke-width: 2; opacity: 0; transform-box: view-box; transform-origin: 320px 290px; }
+
+.eco-notes { position: absolute; inset: 0; pointer-events: none; }
+.eco-note {
+  position: absolute; width: 24%; max-width: 270px; text-align: left; font: inherit; cursor: pointer;
+  display: grid; grid-template-columns: 1.15rem minmax(0, 1fr); gap: 0.25rem 0.7rem; align-items: center;
+  padding: 1rem 1.1rem; background: var(--paper); border: 1px solid var(--line); border-top: 4px solid var(--coral);
+  box-shadow: 0 14px 34px rgba(1,61,69,0.14);
+  opacity: 0; transform: translateY(10px) scale(0.97); pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s var(--ease);
+}
+.eco-note.on { opacity: 1; transform: none; pointer-events: auto; }
+.eco-note b { color: var(--ink); font-size: 1.05rem; line-height: 1.25; }
+.eco-note .nd { grid-column: 1 / -1; color: var(--muted); font-size: 0.92rem; line-height: 1.5; }
+.n-comm    { left: 0; top: 6%; }
+.n-yrc     { left: 0; top: 38%; }
+.n-school  { left: 0; top: 66%; }
+.n-partner { right: 0; top: 4%; }
+.n-champ   { right: 0; top: 38%; }
+.n-parent  { right: 0; top: 70%; }
+.k-comm { background: var(--mist); border: 2px dashed var(--sea); }
+
+.eco-progress { display: flex; gap: 0.4rem; justify-content: center; margin-top: 1.25rem; }
+.eco-progress span { width: 22px; height: 4px; border-radius: 2px; background: var(--line); transition: background 0.3s, width 0.3s; }
+.eco-progress span.on { background: var(--coral); width: 36px; }
+
+@media (max-width: 1000px) {
+  .eco-stage .eco-figure { width: min(560px, 100%); }
+  .eco-notes { position: relative; inset: auto; display: grid; width: 100%; max-width: 560px; margin-top: 1rem; pointer-events: auto; }
+  .eco-note { position: relative; inset: auto; grid-area: 1 / 1; width: 100%; max-width: none; left: auto; right: auto; top: auto; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .eco-svg .e-link { animation: flow 1.6s linear infinite; }
+  @keyframes flow { to { stroke-dashoffset: -22; } }
+  .eco-svg .e-pulse { animation: ecoPulse 3s ease-out infinite; }
+  @keyframes ecoPulse { 0% { transform: scale(1); opacity: 0.7; } 100% { transform: scale(2.1); opacity: 0; } }
+  .eco-svg .e-parent { animation: bob 2.4s ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: center; }
+  @keyframes bob { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.35); } }
+  .eco-svg .e-school { animation: blink 4s ease-in-out infinite; animation-delay: var(--d, 0s); }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.65; } }
+  .eco-svg .e-champ { animation: bob 2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eco-note, .eg { transition: none; }
+}
