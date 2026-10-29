@@ -767,7 +767,7 @@ body::before { background: var(--ink); }
 .eco-stage[data-active="partner"] .eg:not([data-k="partner"]),
 .eco-stage[data-active="champ"] .eg:not([data-k="champ"]),
 .eco-stage[data-active="parent"] .eg:not([data-k="parent"]),
-.eco-stage[data-active="comm"] .eg:not([data-k="comm"]) { opacity: 0.32; }
+.eco-stage[data-active="comm"] .eg:not([data-k="comm"]) { opacity: 0.42; }
 .eco-stage .eg[data-k="yrc"] .e-yrc { transition: filter 0.6s; }
 .eco-stage[data-active="yrc"] .e-yrc { filter: drop-shadow(0 0 14px rgba(232,71,86,0.55)); }
 .eco-svg .e-pulse { fill: none; stroke: var(--coral); stroke-width: 2; opacity: 0; transform-box: view-box; transform-origin: 320px 290px; }
@@ -784,12 +784,11 @@ body::before { background: var(--ink); }
 .eco-note.on { opacity: 1; transform: none; pointer-events: auto; }
 .eco-note b { color: var(--ink); font-size: 1.05rem; line-height: 1.25; }
 .eco-note .nd { grid-column: 1 / -1; color: var(--muted); font-size: 0.92rem; line-height: 1.5; }
-.n-comm    { left: 0; top: 6%; }
-.n-yrc     { left: 0; top: 38%; }
-.n-school  { left: 0; top: 66%; }
+.n-school  { left: 0; top: 36%; }
+.n-comm    { left: 0; top: 72%; }
 .n-partner { right: 0; top: 4%; }
-.n-champ   { right: 0; top: 38%; }
-.n-parent  { right: 0; top: 70%; }
+.n-yrc     { right: 0; top: 38%; }
+.n-parent  { right: 0; top: 72%; }
 .k-comm { background: var(--mist); border: 2px dashed var(--sea); }
 
 .eco-progress { display: flex; gap: 0.4rem; justify-content: center; margin-top: 1.25rem; }
@@ -816,3 +815,12 @@ body::before { background: var(--ink); }
 @media (prefers-reduced-motion: reduce) {
   .eco-note, .eg { transition: none; }
 }
+
+.eco-svg .beam path { pointer-events: none; }
+.eco-svg .beam-edge { stroke: var(--coral); stroke-width: 2; stroke-linecap: round; opacity: 0.75; pointer-events: none; }
+.eco-stage .eg[data-k] { transition: opacity 0.7s ease; }
+.eco-svg .eg { transform-box: view-box; transform-origin: 320px 290px; }
+.eco-stage[data-active="school"] .eg[data-k="school"] .e-school,
+.eco-stage[data-active="parent"] .eg[data-k="parent"] .e-parent { filter: drop-shadow(0 0 6px rgba(232,71,86,0.55)); }
+.eco-stage[data-active="partner"] .eg[data-k="partner"] .e-partner { fill: var(--coral); }
+.eco-stage[data-active="comm"] .e-comm { stroke: var(--coral); stroke-dasharray: 2 5; }
