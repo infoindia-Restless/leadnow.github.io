@@ -926,3 +926,18 @@ body::before { background: var(--ink); }
   @keyframes ilBeat { 0%, 100% { transform: scale(1); } 20% { transform: scale(1.15); } 40% { transform: scale(1); } }
 }
 .h-formal { font-size: var(--step-2); font-weight: 700; letter-spacing: -0.015em; }
+
+/* ── Vision and mission: open type with typewriter ── */
+.vm { display: grid; border-top: 2px solid var(--ink); }
+.vm-row { display: grid; grid-template-columns: minmax(0, 0.32fr) minmax(0, 1fr); gap: 0.75rem 3rem; padding-block: clamp(2rem, 4vw, 3rem); border-bottom: 1px solid var(--line); align-items: start; }
+.vm-label { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--coral-text); padding-top: 0.9rem; display: flex; align-items: center; gap: 0.75rem; }
+.vm-label::before { content: ""; width: 0.75rem; height: 0.75rem; border-radius: 50%; background: var(--coral); }
+.vm-row + .vm-row .vm-label::before { background: var(--teal); }
+.vm-text { display: grid; margin: 0; font-size: clamp(1.6rem, 1.1rem + 2vw, 2.6rem); font-weight: 700; line-height: 1.22; letter-spacing: -0.025em; color: var(--ink); max-width: 30ch; text-wrap: pretty; }
+.vm-text > span { grid-area: 1 / 1; }
+.vm .tw-typed { display: none; }
+.vm.tw-on .tw-ghost { visibility: hidden; }
+.vm.tw-on .tw-typed { display: block; }
+.tw-typed .caret { display: inline-block; width: 3px; height: 0.95em; margin-left: 3px; vertical-align: -0.08em; background: var(--coral); animation: caret 0.9s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+@media (max-width: 700px) { .vm-row { grid-template-columns: 1fr; } .vm-label { padding-top: 0; } }
