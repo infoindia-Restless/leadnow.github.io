@@ -941,3 +941,9 @@ body::before { background: var(--ink); }
 .tw-typed .caret { display: inline-block; width: 3px; height: 0.95em; margin-left: 3px; vertical-align: -0.08em; background: var(--coral); animation: caret 0.9s steps(1) infinite; }
 @keyframes caret { 50% { opacity: 0; } }
 @media (max-width: 700px) { .vm-row { grid-template-columns: 1fr; } .vm-label { padding-top: 0; } }
+/* Vision / Mission labels: filled, larger */
+.vm-label { justify-self: start; align-self: start; margin-top: 0.35rem; padding: 0.7rem 1.35rem; font-size: clamp(1.05rem, 0.9rem + 0.6vw, 1.35rem); font-weight: 800; letter-spacing: 0.2em; color: #fff; background: var(--coral); border-radius: 3px; }
+.vm-label::before { display: none; }
+.vm-row + .vm-row .vm-label { background: var(--teal); }
+@media (max-width: 700px) { .vm-label { margin-top: 0; } }
+.vm-label { font-size: clamp(1.2rem, 0.95rem + 0.9vw, 1.7rem); padding: 0.8rem 1.6rem; letter-spacing: 0.16em; }
