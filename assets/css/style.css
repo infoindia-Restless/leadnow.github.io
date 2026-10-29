@@ -879,3 +879,19 @@ body::before { background: var(--ink); }
   .hs-text { padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); padding-block: 2.5rem 3rem; }
 }
 @media (max-width: 860px) { .hs-media .slide-controls { right: 50%; bottom: 0.75rem; } }
+
+/* ── Illustrated icons ─────────────────────────────── */
+.pico { width: 64px; height: 64px; display: block; flex-shrink: 0; }
+.pico-lg { width: 76px; height: 76px; }
+.priority .pico { margin-bottom: 0.25rem; transition: transform 0.35s var(--ease); }
+.priority:hover .pico { transform: translateY(-4px) rotate(-4deg); }
+.vicons { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1.25rem 1rem; }
+.vicons > div { display: grid; justify-items: center; gap: 0.6rem; text-align: center; }
+.vicons span { font-weight: 800; color: var(--ink); font-size: 1rem; letter-spacing: -0.01em; line-height: 1.2; }
+.vicons .pico { width: 72px; height: 72px; transition: transform 0.35s var(--ease); }
+.vicons > div:hover .pico { transform: translateY(-4px) scale(1.04); }
+@media (max-width: 600px) { .vicons { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.value h3.vh { display: flex; align-items: center; gap: 1rem; }
+.value h3.vh .pico { width: 56px; height: 56px; }
+.priority .pico { width: 84px; height: 84px; }
+.value:has(h3.vh) { align-items: center; }
