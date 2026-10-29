@@ -141,4 +141,35 @@
       draw(); requestAnimationFrame(tick);
     }
   }
+
+  // About: vision and mission type themselves out when scrolled into view
+  var vm = document.querySelector('[data-typewriter]');
+  var reduceTw = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (vm && !reduceTw && 'IntersectionObserver' in window) {
+    var lines = Array.prototype.slice.call(vm.querySelectorAll('.vm-text'));
+    vm.classList.add('tw-on');
+    var caret = document.createElement('span'); caret.className = 'caret';
+    var typeLine = function (li, done) {
+      var full = lines[li].querySelector('.tw-ghost').textContent;
+      var out = lines[li].querySelector('.tw-typed');
+      var i = 0;
+      out.textContent = ''; out.appendChild(caret);
+      var step = function () {
+        i++;
+        out.textContent = full.slice(0, i); out.appendChild(caret);
+        if (i < full.length) setTimeout(step, full.charAt(i - 1) === ',' ? 220 : 26 + Math.random() * 28);
+        else setTimeout(done, 700);
+      };
+      setTimeout(step, 350);
+    };
+    var started = false;
+    var io = new IntersectionObserver(function (entries) {
+      if (started || !entries.some(function (e) { return e.isIntersecting; })) return;
+      started = true; io.disconnect();
+      typeLine(0, function () {
+        typeLine(1, function () { /* caret keeps blinking at the end of the mission */ });
+      });
+    }, { threshold: 0.35 });
+    io.observe(vm);
+  }
 })();
