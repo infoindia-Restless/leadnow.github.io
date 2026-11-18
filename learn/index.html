@@ -58,6 +58,7 @@ a{color:var(--teal)}
 .w-head h1{font-family:var(--serif);font-weight:800;font-size:52px;line-height:1.02;margin-top:12px;letter-spacing:-.01em}
 .w-head h1 em{color:var(--coral);font-style:italic;font-weight:600}
 .w-body{background:var(--paper);flex:1;padding:6px 24px 40px}
+.fac-link{margin-top:34px;text-align:center;font-size:13px}.fac-link a{color:var(--mute)}
 .who{list-style:none;border-top:1px solid var(--rule)}
 .who li{border-bottom:1px solid var(--rule)}
 .who li>button{width:100%;text-align:left;padding:16px 0;display:flex;flex-direction:column}
@@ -851,7 +852,6 @@ const ENGLISH_DAILY = [
 
 const CONFIG = {
   SHEET_URL: "https://script.google.com/macros/s/AKfycbxsig2YWce0wBa_a6s0o0GvESKZRiVRwNQjqImKQRe3B-BXUl156UKq1CuSaR7BpeeQ/exec",                       // Paste the Google Apps Script web app URL here (see SETUP-GUIDE.md)
-  FACILITATOR_CODE: "LEADNOW-YRC",     // Change this before sharing the app
   CENTRE: "Youth Resource Centre, Dakshinpuri",
   PROGRAMME: "Lead Forward",
   ORG: "Lead Now Foundation",
@@ -951,7 +951,7 @@ function renderWelcome(){
       <p class="eyebrow">${esc(CONFIG.PROGRAMME)} · ${esc(CONFIG.CENTRE)}</p>
       <h1>Seekho.<br>Socho.<br><em>Lead karo.</em></h1>
     </header>
-    <div class="w-body">${body}</div>
+    <div class="w-body">${body}<p class="fac-link"><a href="facilitator/">Facilitator login →</a></p></div>
   </section>`;
 }
 
@@ -1254,7 +1254,8 @@ function renderProgress(){
     ${V.confirmDel ? `<p class="warnp">Pakka? Is phone se ${esc(p.name)} ki saari progress aur diary hat jayegi.</p><button class="btn warn wide" data-a="delp">Haan, hatao</button>` : `<button class="linkbtn" data-a="askdel">Is phone se meri profile hatao</button>`}
     <h2 class="h-sm">Facilitator mode</h2>
     ${S.fac ? `<p class="muted">On hai: sessions mein facilitator notes dikh rahe hain.</p><button class="mini" data-a="facoff">Band karo</button>`
-      : `<form class="pin" data-form="fac"><input name="code" placeholder="Facilitator code"><button class="btn line">On karo</button></form>`}
+      : `<form class="pin" data-form="fac"><input name="code" type="password" placeholder="Facilitator password"><button class="btn line">On karo</button></form>`}
+    <p><a class="linkbtn" href="facilitator/">Facilitator Portal kholo →</a></p>
   </main>${tabs("progress")}`;
 }
 
@@ -1355,7 +1356,12 @@ document.addEventListener("submit", e => {
   }
   if(kind === "pin"){ const p = S.profiles[f.dataset.id]; if(fd.pin === p.pin){ S.current = p.id; save(); go("home"); } else toast("PIN galat hai"); }
   if(kind === "lib"){ P().library.push({ cat:fd.cat, text:fd.text.trim(), ts:Date.now() }); save(); V.cat = fd.cat; render(); toast("Save ho gaya"); }
-  if(kind === "fac"){ if(fd.code.trim() === CONFIG.FACILITATOR_CODE){ S.fac = true; save(); render(); toast("Facilitator mode on"); } else toast("Code galat hai"); }
+  if(kind === "fac"){
+    toast("Check kar rahe hain...");
+    fetch(CONFIG.SHEET_URL, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body: JSON.stringify({ action:"auth", key: fd.code.trim() }) })
+      .then(r => r.json()).then(r => { if(r.ok){ S.fac = true; save(); render(); toast("Facilitator mode on"); } else toast("Password galat hai"); })
+      .catch(() => toast("Internet chahiye. Dobara try karo."));
+  }
 });
 
 render(); flush();

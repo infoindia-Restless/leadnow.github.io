@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#003D44">
+<title>Facilitator Portal · Lead Forward · Lead Now Foundation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#006D77;--coral:#E84855;--sea:#83C5BE;--deep:#003D44;--mist:#EDF6F9;--paper:#F6F3EB;--ink:#132C30;--mute:#5C7174;--rule:rgba(0,61,68,.16);--line:rgba(0,109,119,.12);
+--serif:"Playfair Display",Georgia,serif;--sans:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);font-size:15px;line-height:1.55}
+button,input,select{font:inherit;color:inherit}button{cursor:pointer;background:none;border:0}
+a{color:var(--teal)}
+.muted{color:var(--mute)}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--teal)}
+code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em}
+.wm{display:inline-flex;flex-direction:column;line-height:1}
+.wm-word{font-weight:700;font-size:21px;letter-spacing:-.02em;color:#fff;display:inline-flex;align-items:center}
+.wm-o{width:.82em;height:.82em;margin:0 .02em;transform:translateY(.06em)}
+.wm-f{font-size:8px;letter-spacing:.42em;color:var(--coral);font-weight:700;margin-top:4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 20px;font-weight:700;border:2px solid transparent;text-decoration:none;min-height:46px}
+.btn.coral{background:var(--coral);color:#fff}.btn.line{border-color:var(--teal);color:var(--teal);background:#fff}
+.btn.sm{padding:6px 12px;min-height:36px;font-size:13.5px}
+.btn[disabled]{opacity:.5}
+
+/* login */
+.login{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
+.login-l{background:radial-gradient(100% 60% at 100% 0%,rgba(232,72,85,.25),transparent 60%),var(--deep);color:#fff;padding:56px 56px}
+.login-l .eyebrow{color:var(--sea);margin-top:72px}
+.login-l h1{font-family:var(--serif);font-weight:800;font-size:64px;line-height:1;margin:14px 0 18px}
+.login-l h1 em{color:var(--coral);font-weight:600}
+.sub{color:var(--sea);max-width:420px;font-size:17px}
+.login-r{padding:56px;display:flex;flex-direction:column;gap:16px;justify-content:center;max-width:480px;width:100%;justify-self:center}
+.login-r h2{font-family:var(--serif);font-size:30px;color:var(--deep)}
+.login-r label{display:flex;flex-direction:column;gap:6px;font-weight:500;font-size:14px}
+.login-r input[type=password]{border:0;border-bottom:2px solid var(--teal);background:transparent;padding:10px 2px;font-size:18px;outline:none}
+.login-r input:focus{border-bottom-color:var(--coral)}
+.chk{flex-direction:row !important;align-items:center;gap:8px !important;font-weight:400 !important;color:var(--mute)}
+.chk input{width:18px;height:18px;accent-color:var(--teal)}
+.err{color:#9b2c35;font-weight:500}
+.fine{font-size:12.5px;color:var(--mute)}
+.back{font-size:14px}
+
+/* shell */
+.top{display:flex;align-items:center;gap:28px;background:var(--deep);padding:14px 32px;position:sticky;top:0;z-index:20}
+.top nav{display:flex;gap:4px;flex:1}
+.top nav button{color:rgba(255,255,255,.7);font-weight:500;padding:10px 14px;border-bottom:3px solid transparent}
+.top nav button.on{color:#fff;border-bottom-color:var(--coral)}
+.top-r{display:flex;gap:16px}.lnk{color:var(--sea);font-size:14px;text-decoration:none}
+.main{max-width:1180px;margin:0 auto;padding:28px 32px 60px}
+.pad{padding:40px 0}
+
+/* dashboard */
+.filters{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:22px}
+.filters label{font-weight:700;font-size:13px;color:var(--deep);display:flex;gap:8px;align-items:center}
+.filters select{border:1.5px solid var(--teal);padding:7px 10px;background:#fff;font-weight:500}
+.upd{color:var(--mute);font-size:13px;margin-left:auto}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);border-top:3px solid var(--deep);border-bottom:1px solid var(--rule);margin-bottom:26px}
+.kpi{padding:18px 18px 16px;display:flex;flex-direction:column}
+.kpi+.kpi{border-left:1px solid var(--rule)}
+.kv{font-family:var(--serif);font-weight:800;font-size:44px;line-height:1;color:var(--deep)}
+.kl{font-weight:700;font-size:13.5px;margin-top:8px;color:var(--deep)}
+.ks{font-size:12.5px;color:var(--mute)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px}
+.panel{background:#fff;border:1px solid var(--rule);padding:22px 22px 18px;margin-bottom:22px}
+.grid2 .panel{margin-bottom:0}
+.panel h3{font-family:var(--serif);font-size:21px;color:var(--deep)}
+.cap{font-size:12.5px;color:var(--mute);margin-bottom:14px}
+.hb{list-style:none}
+.hb li{display:grid;grid-template-columns:150px 1fr 74px;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)}
+.hb li:hover{background:var(--mist)}
+.hb-l b{display:block;font-size:12.5px;color:var(--deep)}.hb-l small{display:block;font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hb-t{height:10px;background:var(--line);position:relative}
+.hb-t i{position:absolute;left:0;top:0;bottom:0;background:var(--teal);border-radius:0 4px 4px 0;min-width:0}
+.hb-v{font-size:13px;font-weight:700;text-align:right;color:var(--ink)}
+.cols{display:grid;grid-template-columns:repeat(30,1fr);gap:2px;height:150px;align-items:end;border-bottom:1px solid var(--rule)}
+.col{height:100%;display:flex;align-items:flex-end;cursor:default}
+.col:hover{background:var(--mist)}
+.col i{display:block;width:100%;background:var(--teal);border-radius:4px 4px 0 0;min-height:0}
+.cols-x{display:flex;justify-content:space-between;font-size:12px;color:var(--mute);margin-top:6px}
+.attn{border-left:4px solid var(--coral)}
+.attn-g{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:10px}
+.attn h4{font-size:14px;color:var(--deep);margin-bottom:6px;display:flex;justify-content:space-between;border-bottom:2px solid var(--deep);padding-bottom:6px}
+.attn h4 span{font-family:var(--serif);color:var(--coral);font-size:18px}
+.attn ul{list-style:none}.attn li{padding:6px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--mute)}.attn li b{color:var(--ink);margin-right:6px}
+.tbl-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:12px}
+.tbl-h input{border:1.5px solid var(--rule);padding:8px 12px;min-width:240px}
+.tbl-w{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);border-bottom:2px solid var(--deep);padding:8px 10px;white-space:nowrap}
+.tbl th button{font-weight:700;letter-spacing:inherit;text-transform:inherit;color:inherit}
+.tbl td{padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl tr:hover td{background:var(--mist)}
+.n{text-align:right}
+.pg{display:inline-flex;gap:8px;align-items:center}
+.pg-b{width:46px;height:6px;background:var(--line);display:inline-block}.pg-b i{display:block;height:100%;background:var(--teal)}
+.warnc{color:#9b2c35;font-weight:500}
+.cert{display:inline-block;font-size:11.5px;font-weight:700;color:var(--teal);border:1px solid var(--teal);padding:1px 7px;margin-right:4px}
+.empty{background:#fff;border:1px dashed var(--rule);padding:44px;text-align:center}
+.empty h2{font-family:var(--serif);color:var(--deep);margin-bottom:8px}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:13px;padding:7px 10px;opacity:0;transition:opacity .12s;z-index:50;max-width:320px}
+.tip.on{opacity:1}
+
+/* guide */
+.guide{display:grid;grid-template-columns:250px 1fr;gap:44px;align-items:start}
+.toc{position:sticky;top:90px;display:flex;flex-direction:column;border-top:3px solid var(--deep);padding-top:12px}
+.toc .eyebrow{margin-bottom:8px}
+.toc a{display:grid;grid-template-columns:28px 1fr;padding:8px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);font-size:14px}
+.toc a span{font-family:var(--serif);color:var(--coral);font-weight:600}
+.gsec{padding:6px 0 34px;border-bottom:1px solid var(--rule);margin-bottom:30px;scroll-margin-top:90px}
+.gno{font-family:var(--serif);font-size:48px;font-weight:800;color:transparent;-webkit-text-stroke:1.3px var(--coral);line-height:1}
+.gsec h2{font-family:var(--serif);font-size:28px;color:var(--deep);margin:4px 0 14px}
+.gsec p{margin-bottom:10px;max-width:760px}
+.lead{font-size:18px;color:var(--deep)}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:18px 0}
+.three>div{border-top:2px solid var(--teal);padding-top:10px}
+.three h4{font-family:var(--serif);font-size:19px;color:var(--teal)}
+.kv{border-collapse:collapse;width:100%;max-width:760px}
+.kv th{text-align:left;padding:9px 12px 9px 0;width:160px;font-size:13px;color:var(--mute);border-bottom:1px solid var(--line)}
+.kv td{padding:9px 0;border-bottom:1px solid var(--line)}
+.steps{padding-left:22px;max-width:780px}
+.steps li{padding:7px 0 7px 4px;border-bottom:1px solid var(--line)}
+ul.steps{list-style:square}
+.alert{background:var(--coral);color:#fff;padding:14px 18px;margin-bottom:14px;max-width:780px}
+.facswitch{display:flex;justify-content:space-between;align-items:center;gap:20px;background:#fff;border:1px solid var(--rule);border-left:4px solid var(--teal);padding:14px 18px;margin-top:18px;max-width:780px}
+.facswitch p{margin:0;font-size:13.5px}
+.faq dt{font-weight:700;color:var(--deep);margin-top:14px}
+.faq dd{color:var(--ink);padding:4px 0 10px;border-bottom:1px solid var(--line);max-width:780px}
+
+/* session plans */
+.trk{margin-bottom:38px}
+.trk h2{font-family:var(--serif);font-size:34px;color:var(--deep);margin:2px 0 12px}
+.plan{background:#fff;border:1px solid var(--rule);margin-bottom:10px}
+.plan summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:54px 1fr auto;align-items:center;gap:12px;padding:16px 20px}
+.plan summary::-webkit-details-marker{display:none}
+.pn{font-family:var(--serif);font-size:30px;font-weight:800;color:var(--coral)}
+.pt b{display:block;font-size:17px;color:var(--deep)}.pt small{color:var(--mute)}
+.pc{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal)}
+.plan[open] .pc{color:var(--mute)}.plan[open] summary{border-bottom:1px solid var(--rule)}
+.plan-b{display:grid;grid-template-columns:1fr 1.4fr;gap:32px;padding:20px 22px 24px}
+.pcol h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin:14px 0 8px}
+.pcol h4:first-child{margin-top:0}
+.tk{list-style:square;padding-left:18px}.tk li{padding:3px 0}
+.rs{list-style:none}
+.rs li{display:grid;grid-template-columns:64px 1fr;padding:8px 0;border-bottom:1px solid var(--line)}
+.rs li span{font-family:var(--serif);color:var(--coral);font-weight:600}
+.app-steps{padding-left:20px}
+.app-steps li{padding:5px 0;border-bottom:1px dashed var(--line)}
+.app-steps small{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.app-steps em{display:block;font-size:13px;color:#8a6408;background:#fff7e0;padding:5px 8px;margin-top:4px;font-style:normal}
+
+@media (max-width:900px){
+  .login{grid-template-columns:1fr}.login-l{padding:32px 24px}.login-l .eyebrow{margin-top:30px}.login-l h1{font-size:46px}.login-r{padding:32px 24px}
+  .top{flex-wrap:wrap;padding:12px 16px;gap:10px}.top nav{order:3;flex:1 1 100%;overflow-x:auto}.tbl-h input{min-width:0;width:55%}.top-r{margin-left:auto}
+  .main{padding:20px 16px 50px}
+  .kpis{grid-template-columns:repeat(2,1fr)}.kpi:nth-child(odd){border-left:0}.kpi{border-bottom:1px solid var(--rule)}
+  .grid2,.attn-g,.three,.plan-b,.guide{grid-template-columns:1fr}
+  .toc{position:static}
+  .hb li{grid-template-columns:110px 1fr 64px}
+  .upd{margin-left:0;width:100%}
+}
+@media print{.top,.filters{display:none}.panel{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* Lead Forward LMS · lesson content
+   Source: "Skill Module on AI" (4 sessions) and "Mental Health & Wellbeing Facilitator Guide" (student Modules 1 and 2).
+   Edit text here; the app renders whatever is in TRACKS. */
+
+const TRACKS = [
+{
+  id: "ai",
+  title: "AI Seekho",
+  sub: "AI Skills for Young Leaders",
+  cert: "AI Skills for Young Leaders",
+  certSub: "Artificial Intelligence for Learning, English and Careers",
+  blurb: "Chaar sessions. AI kya hai, kaise use karein, sahi sawaal kaise poochein, aur AI se English kaise seekhein.",
+  hours: "6.5 ghante",
+  sessions: [
+  /* ---------------- AI SESSION 1 ---------------- */
+  {
+    id: "ai1", no: 1, mins: 90, cert: "Understanding Artificial Intelligence",
+    title: "AI Kya Hai?", en: "What is AI?",
+    objectives: [
+      "AI ko roz ki life ke examples se samajhna",
+      "Technology ka darr kam karna",
+      "Dekhna ki AI pehle se hamari life mein hai",
+      "AI skills seekhne ka josh banana"
+    ],
+    steps: [
+      { type: "chips", tag: "Ice breaker", title: "Technology mein kya use karte ho?",
+        q: "Apne phone mein kaunse apps sabse zyada use karte ho? Jitne chaho select karo.",
+        key: "ai1_apps",
+        options: ["WhatsApp","Instagram","YouTube","Google","Google Maps","Snapchat","Facebook","Games","Camera","Ola / Uber","Netflix","Spotify"],
+        after: "In sabhi apps mein AI chhupa hua hai! Aaj hum dekhenge kaise.",
+        tip: "Safe, judgment-free space banao. Kai students technology ke baare mein sharmaate hain. Bolo: Yahan koi sawaal galat nahi hai, sab seekhne aaye hain." },
+      { type: "read", tag: "Samjho", title: "AI matlab kya?",
+        html: `<p class="lead">AI matlab <b>Artificial Intelligence</b>. Yeh ek aisi technology hai jo machines ko smart banati hai, jaise insaan sochte hain waise sochne ke liye.</p>
+<p>AI koi complicated ya sirf ameeron wali technology nahi hai. Yeh ek tool hai jo aapki padhai, English, problem solving aur career planning mein seedha madad kar sakta hai.</p>`,
+        tip: "Is part mein participants ko intro video dikhao (module mein diya gaya)." },
+      { type: "examples", tag: "Real examples", title: "AI aapke phone mein kahan hai?",
+        items: [
+          { h: "Google Maps, Ola, Uber", lines: ["Jab aap Ola ya Uber book karte ho, AI decide karta hai ki sabse fast route kaunsa hai.","Traffic jam ho toh AI automatically dusra rasta suggest karta hai."], ask: "Kabhi notice kiya ki Google Maps kaise batata hai ki 15 minute mein pahunchenge?" },
+          { h: "YouTube recommendations", lines: ["Jab aap YouTube kholte ho, AI dekh raha hai aapne pehle kya dekha.","Phir woh milte julte videos recommend karta hai."], ask: "YouTube ko kaise pata chalta hai ki aapko comedy ya songs pasand hain?" },
+          { h: "Instagram aur Snapchat filters", lines: ["Filter lagakar photo lete ho toh AI aapka face detect karta hai.","Woh samajhta hai ki eyes kahan hain, lips kahan hain, aur filter perfectly laga deta hai."] },
+          { h: "Phone camera", lines: ["Portrait mode mein background blur AI karta hai.","Photo mein kitni brightness chahiye, colours kaise hon, yeh bhi AI decide karta hai."] }
+        ] },
+      { type: "list", tag: "Activity · AI Detective", title: "5 jagah dhoondo jahan AI chhupa hai",
+        q: "Group mein ya akele: apni life mein 5 jagah likho jahan aap bina jaane AI use karte ho.",
+        key: "ai1_detective", n: 5, ph: "Jaise: WhatsApp auto-correct",
+        reveal: { title: "Doosre students ne kya dhoondha", items: ["WhatsApp auto-correct","Netflix recommendations","Google search suggestions","Spam email filtering","Phone ka face unlock"] },
+        tip: "4 se 5 ke groups banao. Har group 5 minute mein apni findings present kare." },
+      { type: "read", tag: "Samjho", title: "AI seekhna kyun zaroori hai?",
+        html: `<div class="trio">
+<div><h4>Future jobs</h4><p>Agle 5 se 10 saal mein almost har job mein AI ka use hoga. Jo log AI use karna jaante hain, unko better jobs milenge: data entry, customer service, content creation, designing.</p></div>
+<div><h4>Better padhai</h4><p>AI ek tutor ki tarah kaam kar sakta hai, 24/7. Mushkil topics simple language mein samjha sakta hai. Homework aur exam preparation mein help.</p></div>
+<div><h4>Naye skills</h4><p>English improve karni hai? AI se roz practice karo. Cooking, programming, graphic design jaise naye skills free mein seekho.</p></div>
+</div>` },
+      { type: "read", tag: "Wrap up", title: "Aaj ki teen baatein",
+        html: `<ol class="big">
+<li>AI darawna nahi hai. Yeh pehle se hamari roz ki life mein hai.</li>
+<li>Hum sab AI tools use karna seekh sakte hain.</li>
+<li>AI skills padhai aur future jobs dono mein kaam aayenge.</li></ol>
+<p class="aside">Next session: hum apne phone par asli AI tools use karenge. Homework help se lekar English practice tak, sab kuch!</p>` }
+    ],
+    quiz: [
+      { q: "AI ka full form kya hai?", o: ["Automatic Internet","Artificial Intelligence","Advanced Information","Android Interface"], a: 1, why: "AI matlab Artificial Intelligence: machines ko insaan ki tarah sochne layak banana." },
+      { q: "YouTube aapko milte julte videos kaise dikhata hai?", o: ["Random videos dikhata hai","Aapke dost choose karte hain","AI dekhta hai aapne pehle kya dekha","YouTube staff haath se choose karta hai"], a: 2, why: "AI aapki history dekhkar similar videos recommend karta hai." },
+      { q: "Inmein se kahan AI use NAHI ho raha?", o: ["Google Maps ka traffic route","Kaagaz par pencil se likhna","Instagram filter","Phone ka face unlock"], a: 1, why: "Pencil aur kaagaz mein koi AI nahi hai. Baaki teeno mein AI kaam kar raha hai." },
+      { q: "Phone camera ke portrait mode mein background blur kaun karta hai?", o: ["AI","Phone ki battery","Network","Koi nahi, lens khud"], a: 0, why: "Portrait mode mein AI pehchanta hai ki person kahan hai aur background ko blur karta hai." },
+      { q: "AI seekhna kyun zaroori hai?", o: ["AI sirf engineers ke liye hai","Agle 5 se 10 saal mein almost har job mein AI ka use hoga","AI se phone fast chalta hai","AI seekhna zaroori nahi hai"], a: 1, why: "Jo log AI use karna jaante hain, unke liye better jobs aur learning ke mauke hain." }
+    ],
+    checklist: ["Main roz ki life mein AI ke 3 ya zyada examples bata sakta/sakti hoon","Mujhe technology se pehle se kam darr lagta hai"]
+  },
+
+  /* ---------------- AI SESSION 2 ---------------- */
+  {
+    id: "ai2", no: 2, mins: 120, cert: "Using AI Tools in Daily Life",
+    title: "AI Ko Kaise Use Karein", en: "How to use AI",
+    objectives: [
+      "ChatGPT aur Claude ke saath hands-on experience",
+      "Free AI tools set up aur access karna",
+      "Asli student problems par AI use karna",
+      "AI se madad maangne ka confidence"
+    ],
+    steps: [
+      { type: "read", tag: "Setup", title: "Apna AI tool set up karo",
+        html: `<div class="setup">
+<div><h4>ChatGPT</h4><ol><li>Browser kholo (Chrome, Firefox, koi bhi)</li><li>Type karo: <b>chatgpt.com</b></li><li>Sign Up par click karo: email ya Google account se</li><li>Email verify karo</li><li>Chat shuru!</li></ol></div>
+<div><h4>Claude</h4><ol><li>Browser kholo</li><li>Type karo: <b>claude.ai</b></li><li>Sign Up par click karo</li><li>Email ya Google account use karo</li><li>Ready!</li></ol></div></div>
+<div class="note"><b>Age ka dhyaan rakho.</b> ChatGPT 13 saal se upar ke liye hai; 18 se kam ho toh parent ya guardian ki permission zaroori hai. Claude.ai sirf 18 saal aur usse upar ke liye hai. 18 se kam ho toh facilitator batayenge ki kaunsa tool use karna hai.</div>`,
+        tip: "Ghoom ghoom kar har student ki madad karo. Jinke paas email nahi, unka free Gmail account banwao. Jo struggle kar rahe hain unhe confident students ke saath pair karo." },
+      { type: "tryit", tag: "Try karo", title: "Pehli AI baatcheet",
+        intro: "Pehle facilitator demo karenge, phir aap try karo. Hinglish mein likhoge toh AI bhi Hinglish mein jawab dega!",
+        prompts: [
+          { label: "Namaste bolo", text: "Namaste! Aap kaun ho?" },
+          { label: "Science samjho", text: "Mujhe science ka photosynthesis samajh nahi aa raha. Aasan language mein explain karo." },
+          { label: "English application", text: "Can you help me write an application for sick leave in English?" }
+        ],
+        after: "Ab apni baari: apna introduction do, apne favourite subject ke baare mein ek sawaal poocho, aur school ki koi mushkil cheez samjhne ko bolo." },
+      { type: "tryit", tag: "Use case 1", title: "Homework help",
+        intro: "Maths ka quadratic equation solve nahi ho raha? AI se step by step poocho.",
+        prompts: [ { label: "Step by step solution", text: "Can you solve this step-by-step: x² + 5x + 6 = 0" } ],
+        after: "Ab apne homework ka ek sawaal AI se poocho. Answer copy mat karo: steps samjho." },
+      { type: "tryit", tag: "Use case 2", title: "Exam preparation",
+        intro: "AI se practice questions banwao, mushkil concepts samjho, aur summary notes banao.",
+        prompts: [ { label: "Practice MCQs", text: "Generate 10 MCQ questions on the Indian Freedom Struggle for the class 10 exam. Answers bhi do." },
+                   { label: "Summary notes", text: "Make short summary notes on the water cycle for class 9 in simple Hinglish, in bullet points." } ] },
+      { type: "tryit", tag: "Use case 3", title: "Career guidance",
+        intro: "Apne future ke baare mein AI se poocho.",
+        prompts: [ { label: "12th ke baad", text: "After 12th science, what career options are there besides engineering?" },
+                   { label: "Drawing ka shauk", text: "I'm good at drawing. Kya creative field mein career ban sakta hai?" },
+                   { label: "Delhi mein job", text: "What skills should I learn to get a good job in Delhi?" } ] },
+      { type: "read", tag: "Zaroori", title: "AI smart hai, par perfect nahi",
+        html: `<ul class="rules">
+<li><b>AI galat bhi ho sakta hai.</b> Facts, dates aur numbers textbook ya teacher se check karo.</li>
+<li><b>Copy nahi, samjho.</b> Homework ka answer copy karne se marks nahi, samajh badhti hai jab aap steps seekhte ho.</li>
+<li><b>Private cheezein share mat karo.</b> Password, OTP, ghar ka address, Aadhaar number, ya kisi ki photo AI mein mat daalo.</li>
+<li><b>AI insaan ki jagah nahi lega.</b> Pareshani ho toh kisi trusted insaan se baat karo.</li></ul>`,
+        tip: "Yeh part module ke learning outcome (AI ki limitations aur ethics) ko cover karta hai." },
+      { type: "pick", tag: "Group challenge", title: "AI Problem Solvers",
+        q: "Ek challenge chuno, AI se solve karwao, aur neeche likho AI ne kya diya. Phir group ke saamne 2 minute present karo.",
+        key: "ai2_challenge",
+        options: [
+          "School principal ko sports equipment ke liye letter likhwao",
+          "Board exams ke liye study schedule banwao",
+          "₹5000 mein chhota business kaise shuru karein, samjho",
+          "Budget mein healthy khane ka weekly menu banwao"
+        ],
+        fieldLabel: "AI ne kya solution diya? Aapko kya accha laga?" },
+      { type: "list", tag: "Homework", title: "Agle session se pehle: AI 3 baar",
+        q: "Agle session se pehle AI ko kam se kam 3 baar use karo: homework, learning, ya fun ke liye. Har baar likho aapne kya seekha.",
+        key: "ai2_homework", n: 3, ph: "Maine AI se seekha ki...",
+        after: "Yaad rakho: AI tools free hain, aap Hinglish use kar sakte ho, aur practice se hi perfect banoge." }
+    ],
+    quiz: [
+      { q: "Claude kholne ke liye browser mein kya type karte hain?", o: ["claude.com","claude.ai","ai.claude","claude.in"], a: 1, why: "Claude ka address claude.ai hai. Yaad rakho: Claude.ai 18 saal aur upar ke liye hai." },
+      { q: "Kya AI se Hinglish mein baat kar sakte hain?", o: ["Nahi, sirf English","Haan, Hinglish mein poochoge toh Hinglish mein jawab milega","Sirf Hindi","Sirf paid version mein"], a: 1, why: "AI Hinglish samajhta hai, isliye jaise comfortable ho waise likho." },
+      { q: "Exam preparation ke liye sabse accha prompt kaunsa hai?", o: ["History","Exam ke liye kuch do","Generate 10 MCQ questions on the Indian Freedom Struggle for class 10. Answers bhi do.","Padhai"], a: 2, why: "Topic, class, number of questions aur answers: sab clear hai." },
+      { q: "AI ne homework ka answer de diya. Ab kya karna chahiye?", o: ["Seedha copy kar do","Steps samjho aur important facts textbook ya teacher se check karo","Teacher ko mat batao","Kabhi AI use mat karo"], a: 1, why: "AI galat bhi ho sakta hai. Samajhna aur check karna zaroori hai." },
+      { q: "Inmein se kya AI ke saath share NAHI karna chahiye?", o: ["Apna favourite subject","Ek maths ka sawaal","Apna password ya OTP","Ek English sentence"], a: 2, why: "Password, OTP aur private details kabhi kisi tool ya app mein share mat karo." }
+    ],
+    checklist: ["Maine AI tool ka account set up kar liya","Maine AI ke saath kam se kam ek meaningful baatcheet ki","Maine AI se ek asli problem solve ki"]
+  },
+
+  /* ---------------- AI SESSION 3 ---------------- */
+  {
+    id: "ai3", no: 3, mins: 90, cert: "Prompt Engineering Basics",
+    title: "Prompt Engineering Basics", en: "Asking AI the right way",
+    objectives: [
+      "Accha prompt kya hota hai, samajhna",
+      "Clear aur specific sawaal likhna",
+      "AI se better aur useful jawab lena",
+      "Apni personal prompt library banana"
+    ],
+    steps: [
+      { type: "read", tag: "Samjho", title: "Prompt engineering kya hai?",
+        html: `<p class="lead">Prompt engineering ka matlab hai: AI se sahi sawaal poochna.</p>
+<p>Jaise teacher se clearly poochte ho toh clear answer milta hai, waise hi AI ko bhi clear instructions chahiye. Jo aap AI ko likhte ho, use <b>prompt</b> kehte hain.</p>` },
+      { type: "compare", tag: "Dekho farak", title: "Kamzor prompt vs strong prompt",
+        rows: [
+          ["Essay likh do", "Write a 300-word essay on climate change for class 10, including causes and solutions."],
+          ["Job kaise dhoondu?", "I'm 18, completed 12th in commerce, living in Delhi. What entry-level jobs can I get? Also suggest websites to apply."]
+        ] },
+      { type: "rules", tag: "Golden rules", title: "Prompting ke 5 golden rules",
+        rules: [
+          { h: "Specific bano", b: "Tell me about science ki jagah likho: Explain photosynthesis for class 10 in simple Hindi-English mix." },
+          { h: "Context do", b: "Batao aap kaun ho, kya chahiye, aur kyun. Jaise: I'm preparing for 10th boards. I need practice questions on algebra. Give me 5 questions with solutions." },
+          { h: "Format batao", b: "Explain in bullet points. Give step-by-step instructions. Write in Hinglish. Keep it under 100 words." },
+          { h: "Example do", b: "Write 3 sentences about my hobby. Example: I love reading books. It helps me relax. My favourite genre is mystery." },
+          { h: "Improve karwao", b: "Jawab accha nahi laga? Bolo: Can you make it simpler? Give more examples. Explain like I'm 10 years old." }
+        ] },
+      { type: "tryit", tag: "Templates", title: "Copy karo, khaali jagah bharo",
+        intro: "Brackets [ ] mein apni details daalo. Pasand aaye toh apni Prompt Library mein save karo.",
+        fill: true,
+        prompts: [
+          { label: "Homework help", cat: "Study & Homework", text: "I am a [grade] student. I need help with [subject/topic]. Please explain [specific concept] in simple Hinglish with examples." },
+          { label: "Exam prep", cat: "Study & Homework", text: "Generate [number] practice questions on [topic] for class [X]. Include answers and explanations." },
+          { label: "English practice", cat: "English Learning", text: "Check this sentence for grammar: [your sentence]. Explain any mistakes in Hinglish." },
+          { label: "Career guidance", cat: "Career & Skills", text: "I am [age], completed [education], interested in [field]. What career options do I have? Suggest realistic paths for someone from [location]." }
+        ] },
+      { type: "makeover", tag: "Activity · Prompt Makeover", title: "In kamzor prompts ko strong banao",
+        q: "Golden rules use karke har prompt dobara likho. Phir AI mein test karo.",
+        key: "ai3_makeover",
+        items: [
+          { bad: "History batao", sample: "I am a class 9 student. Explain the main causes of the French Revolution in simple Hinglish, in 5 bullet points." },
+          { bad: "English improve kaise kare", sample: "I am 16 and I understand English but feel shy speaking it. Give me a 15-minute daily practice plan for 30 days, in Hinglish." },
+          { bad: "Job chahiye", sample: "I am 19, completed 12th in arts, living in Delhi. I am good with computers and people. What entry-level jobs can I apply for? Suggest websites too." }
+        ],
+        tip: "Students pairs mein kaam karein, phir best prompts class ke saath share karein." },
+      { type: "fields", tag: "Activity · Prompt Challenge", title: "4 situations, 4 prompts",
+        q: "Har situation ke liye ek prompt likho, AI mein test karo, aur dekho kaunsa sabse accha chala.",
+        key: "ai3_challenge",
+        fields: [
+          { k: "a", label: "Maths ka koi concept samajh nahi aa raha", area: true },
+          { k: "b", label: "Leave application likhni hai", area: true },
+          { k: "c", label: "Ek naya skill seekhna hai", area: true },
+          { k: "d", label: "Interview ki taiyari karni hai", area: true }
+        ] },
+      { type: "link", tag: "Apni library", title: "Apni Prompt Library banao",
+        html: `<p>Jo prompts aap baar baar use karoge, unhe ek jagah save karo. Paanch categories: <b>Study & Homework, English Learning, Career & Skills, Personal Development, Creative & Fun.</b></p>`,
+        go: "library", button: "Prompt Library kholo" }
+    ],
+    quiz: [
+      { q: "Prompt engineering ka matlab kya hai?", o: ["AI ka code likhna","AI se sahi sawaal poochna","Phone repair karna","Engineering ki padhai"], a: 1, why: "Clear sawaal = clear jawab." },
+      { q: "Inmein se sabse strong prompt kaunsa hai?", o: ["Essay likh do","Climate change","Write a 300-word essay on climate change for class 10, including causes and solutions.","Essay chahiye jaldi"], a: 2, why: "Length, topic, class aur kya include karna hai: sab specific hai." },
+      { q: "Rule 2 'Context do' mein kya batate hain?", o: ["Aap kaun ho, kya chahiye, aur kyun chahiye","Sirf apna naam","Apna phone number","Kuch nahi"], a: 0, why: "Context se AI aapke level aur zaroorat ke hisaab se jawab deta hai." },
+      { q: "AI ka jawab bahut mushkil laga. Ab kya likhoge?", o: ["Kuch nahi, chhod do","Can you make it simpler?","Wahi sawaal dobara","Phone band kar do"], a: 1, why: "Rule 5: improvement maango. AI ko feedback do." },
+      { q: "'Explain in bullet points' kaunsa golden rule hai?", o: ["Specific bano","Context do","Format batao","Example do"], a: 2, why: "Aap AI ko bata rahe ho ki jawab kis format mein chahiye." }
+    ],
+    checklist: ["Main specific aur clear prompts likh sakta/sakti hoon","Mujhe pata hai kab context add karna hai","Maine apni personal prompt library banayi"]
+  },
+
+  /* ---------------- AI SESSION 4 ---------------- */
+  {
+    id: "ai4", no: 4, mins: 90, cert: "Learning English with AI",
+    title: "AI Se English Seekhein", en: "Learn English with AI",
+    objectives: [
+      "AI ko 24/7 English tutor ki tarah use karna",
+      "Speaking, writing aur grammar ki practice",
+      "English bolne ka confidence",
+      "Roz English practice ki aadat"
+    ],
+    steps: [
+      { type: "read", tag: "Samjho", title: "English ke liye AI perfect kyun hai?",
+        html: `<ul class="ticks">
+<li><b>Free:</b> koi coaching fees nahi</li>
+<li><b>24/7:</b> jab chaho practice karo</li>
+<li><b>No judgment:</b> galtiyan freely karo</li>
+<li><b>Patient:</b> baar baar samjhayega</li>
+<li><b>Customised:</b> aapke level ke hisaab se</li></ul>` },
+      { type: "grammar", tag: "Activity · Grammar Checker", title: "Galti pakdo, sahi likho",
+        q: "Har sentence ka sahi version likho, phir check karo. Baad mein yeh prompt AI mein try karo.",
+        prompt: "Check this sentence for grammar mistakes and explain errors in Hinglish: [your sentence]",
+        key: "ai4_grammar",
+        items: [
+          { wrong: "I goes to school everyday", right: "I go to school every day.", why: "'I' ke saath 'go' aata hai, 'goes' nahi. Aur 'every day' do alag shabd hain jab matlab 'roz' ho." },
+          { wrong: "She don't like pizza", right: "She doesn't like pizza.", why: "He, she, it ke saath 'doesn't' aata hai." },
+          { wrong: "Me and my friend is playing", right: "My friend and I are playing.", why: "Subject mein 'I' aata hai, 'me' nahi. Do log hain toh 'are'." }
+        ] },
+      { type: "tryit", tag: "Activity · Sentence Builder", title: "Hindi mein socho, English mein likho",
+        intro: "Jo bolna hai woh Hindi mein likho, AI sahi English banane mein madad karega.",
+        prompts: [
+          { label: "Tabiyat kharab", text: "I want to say: Mujhe kal school nahi aana hai kyunki tabiyat kharab hai. Help me write it correctly in English." },
+          { label: "Market gaya tha", text: "I want to say: Main apne bhai ke saath market gaya tha. Help me write it correctly in English." },
+          { label: "Apna template", text: "I want to say [idea in Hindi]. Help me write it correctly in English.", fill: true, cat: "English Learning" }
+        ] },
+      { type: "tryit", tag: "Activity · Role-play", title: "AI ke saath English conversation",
+        intro: "Yeh master prompt hai. [role] ki jagah shopkeeper, teacher, interviewer ya friend likho.",
+        prompts: [
+          { label: "Dukaan par", text: "I want to practice English conversation. You play the role of a shopkeeper in a clothes shop, and I'll practice talking to you. I want to buy clothes, ask prices and bargain. Correct my English mistakes, but keep the conversation natural." },
+          { label: "Job interview", text: "I want to practice English conversation. You play the role of a job interviewer, and I'll practice answering common interview questions. Correct my English mistakes, but keep the conversation natural." },
+          { label: "Naye dost", text: "I want to practice English conversation. You play the role of a new friend, and I'll practice introducing myself and talking about hobbies. Correct my English mistakes, but keep the conversation natural." }
+        ] },
+      { type: "read", tag: "Activity · Voice Note Method", title: "Bolkar practice karo",
+        html: `<ol class="big">
+<li>English mein bolkar apna voice note record karo.</li>
+<li>Jo bola, use type karo.</li>
+<li>AI ko bhejo: <span class="inline-prompt">Check this for mistakes and tell me how to say it better: [typed text]</span></li>
+<li>AI correct karega aur samjhayega.</li>
+<li>Corrections ke saath dobara bolkar practice karo.</li></ol>` },
+      { type: "tryit", tag: "Vocabulary", title: "Roz naye words",
+        intro: "Yeh prompt roz use karo, aur games se mazedaar practice karo.",
+        prompts: [
+          { label: "5 naye words", text: "Teach me 5 new English words related to jobs. Give Hindi meaning, example sentence, and how to use them." },
+          { label: "Word puzzle", text: "Give me a word puzzle with 10 words." },
+          { label: "Fill in the blanks", text: "Create a fill-in-the-blanks exercise for me." },
+          { label: "Synonym game", text: "Play a synonym-antonym game with me." }
+        ] },
+      { type: "link", tag: "Roz ki aadat", title: "15 minute daily plan",
+        html: `<table class="plan"><tr><th>5 min</th><td>3 naye words seekho</td></tr><tr><th>5 min</th><td>2 se 3 sentences likho aur grammar check karo</td></tr><tr><th>5 min</th><td>Chhoti si role-play conversation</td></tr></table>
+<p>Roz practice karo, chahe 10 minute hi sahi. Galtiyon se mat daro. Best conversations save karo. Goal: 30 din baad English mein conversation.</p>`,
+        go: "english", button: "English Daily tracker kholo" },
+      { type: "commit", tag: "Commitment", title: "Mera vaada",
+        key: "ai4_commit",
+        items: ["Main roz 15 minute AI ke saath English practice karunga/karungi","Main roz 5 naye words seekhunga/seekhungi","Main har hafte 1 poori English conversation karunga/karungi","Main apni progress WhatsApp group mein share karunga/karungi"] }
+    ],
+    quiz: [
+      { q: "'She don't like pizza' ka sahi version kya hai?", o: ["She don't likes pizza","She doesn't like pizza","She not like pizza","She doesn't likes pizza"], a: 1, why: "He, she, it ke saath 'doesn't' + verb ka base form." },
+      { q: "Role-play master prompt mein AI ko kya bolte hain?", o: ["Mera homework kar do","Ek role play karo aur meri English mistakes correct karo, conversation natural rakho","Sirf Hindi mein baat karo","Mujhe marks do"], a: 1, why: "AI role nibhata hai aur saath saath galtiyan theek karta hai." },
+      { q: "15 minute daily plan mein kya NAHI hai?", o: ["3 naye words","Sentences likhkar grammar check","Chhoti conversation","5 minute reels dekhna"], a: 3, why: "Plan mein words, sentences aur conversation hain." },
+      { q: "Voice Note Method ka pehla step kya hai?", o: ["AI se essay likhwana","English mein bolkar voice note record karna","Dictionary yaad karna","Kuch nahi"], a: 1, why: "Pehle bolo, phir type karo, phir AI se check karwao." },
+      { q: "English practice ke liye AI accha kyun hai?", o: ["Judge nahi karta aur 24/7 available hai","Sab kuch yaad kar leta hai","Exam deta hai","Paise deta hai"], a: 0, why: "Galtiyan karne ka darr nahi, aur jab chaho practice karo." }
+    ],
+    checklist: ["Maine AI ke saath English conversation practice ki","Mujhe grammar corrections mile aur samajh aaye","Maine roz practice ka commitment liya"]
+  }
+  ]
+},
+
+{
+  id: "mw",
+  title: "Mann Ki Baat",
+  sub: "Mental Health & Wellbeing",
+  cert: "Mental Health & Wellbeing",
+  certSub: "Managing Stress, Pressure and Expectations",
+  blurb: "Do sessions. Exam stress, peer pressure, parents ki ummeedein, aur future ka darr. Saath mein tools jo kabhi bhi kaam aayein.",
+  hours: "2 ghante",
+  sensitive: true,
+  sessions: [
+  /* ---------------- MW SESSION 1 ---------------- */
+  {
+    id: "mw1", no: 1, mins: 60, cert: "Exam Stress and Peer Pressure",
+    title: "Exam Stress & Peer Pressure", en: "Stress aur dabaav ko samjho",
+    objectives: [
+      "Stress aur pressure ki feelings ko normal samajhna",
+      "Kaam aane wale coping tools seekhna",
+      "Peer support banana",
+      "Pehchanna ki kab madad leni hai"
+    ],
+    steps: [
+      { type: "read", tag: "Shuru karne se pehle", title: "Yeh ek safe space hai",
+        html: `<p class="lead">Aaj hum un cheezon ki baat karenge jo sab feel karte hain par bolte nahi: stress, pressure, anxiety.</p>
+<ul class="rules"><li>Jo yahan share hoga, yahi rahega.</li><li>Kisi ko judge nahi karenge.</li><li>Sab ko barabar time milega.</li><li>Share karna optional hai. Pass kar sakte ho.</li></ul>
+<p class="aside">Is section mein aap jo bhi likhoge, woh sirf is phone par save hoga. YRC team ko nahi jayega.</p>`,
+        tip: "Ground rules pehle set karo. Eye contact banao aur bolo: Main kisi ko judge nahi karunga/karungi." },
+      { type: "chips", tag: "Ice breaker · Pressure Cooker", title: "Kya aapke saath bhi hua hai?",
+        q: "Jo situation aapne kabhi feel ki ho, us par tap karo. (Class mein: circle mein khade ho, aur step forward karo.)",
+        key: "mw1_cooker", private: true,
+        options: ["Exam se pehle raat bhar neend nahi aayi","Dosto ke saath na raho toh FOMO lagta hai","Parents ki expectations se darr laga","Social media par kisi ko dekhkar bura laga"],
+        after: "Dekha? Almost sabhi ne yeh kabhi na kabhi feel kiya hai. Aap akele nahi ho. Aaj seekhenge in feelings ko kaise handle karein.",
+        tip: "Har situation ke baad 1 se 2 volunteers ko 15 second mein share karne do." },
+      { type: "story", tag: "Kahani", title: "Priya: pehli hone ka bojh",
+        story: `<p>Priya 10th class ki student hai. Uska school thoda door hai, subah 6 baje uthna padta hai. Roz ki routine: school, tuition, phir ghar aakar homework. Uske papa auto chalate hain, mummy kaam karti hain. Unhe bahut ummeed hai Priya se: "Tu pehli hai jo 10th pass karegi hamari family mein."</p>
+<p>Par Priya ko lagta hai woh kuchh bhi kar le, kaafi nahi hai. Class mein dost hain jo coaching jaate hain. Unke paas notes hain, uske paas nahi. Instagram par dekhe toh sabki life perfect lag rahi hai, sirf uski nahi.</p>
+<p>Board exams aa rahe hain. Raat ko sote waqt dil zor se dhadakta hai. Neend nahi aati. Papa ne naya phone dene ko kaha agar 85% se zyada aaye. Par Priya ko lagta hai woh mushkil hai. Dost kehte hain chill karo, par Priya ko chill karna nahi aata.</p>`,
+        questions: ["Priya ki kahani mein kya relatable laga?","Pressure kahan se aa raha hai? Parents, dost, social media, ya khud se?","Agar aap Priya ke dost hote, kya advice dete?","Kya stress normal hai? Kab problem ban jaata hai?"],
+        key: "mw1_priya",
+        tip: "Students ko khul kar bolne do. Turant solution mat do. Pehle feelings validate karo: Haan, yeh sach mein mushkil hai. Bahut log yeh feel karte hain." },
+      { type: "story", tag: "Ek aur kahani", title: "Rahul: social media ka comparison",
+        story: `<p>Rahul 11th mein hai. Uska best friend Arjun private school mein jaata hai. Arjun ki Instagram stories mein naya iPhone, Starbucks coffee, mall, branded kapde. Arjun ki life perfect lagti hai.</p>
+<p>Rahul ke paas basic phone hai. Ghar ka budget tight hai. Dost movie ka plan banate hain toh Rahul ko bahana banana padta hai, kyunki paise nahi hote.</p>
+<p>Ab Rahul Instagram kam dekhta hai, dekhne se bura lagta hai. Par phir FOMO hota hai. Padhai mein dhyan nahi lagta. Bas sochta rehta hai: "Mere paas bhi hota toh..."</p>`,
+        questions: ["Social media reality hai ya curated version?","Kya aap bhi kabhi comparison trap mein phase ho?","Rahul ko kya samajhna chahiye?","Kya social media break lena accha idea hai?"],
+        key: "mw1_rahul" },
+      { type: "chips", tag: "Body check", title: "Stress mein body kya kehti hai?",
+        q: "Jab aap stressed feel karte ho, body mein kya hota hai? Jo sahi lage, tap karo.",
+        key: "mw1_body", private: true,
+        options: ["Sir dard","Pet kharab","Neend nahi aati","Dil tez dhadakta hai","Bhook nahi lagti","Bahut thakaan","Gussa jaldi aata hai","Kisi se baat karne ka mann nahi"],
+        after: "Thoda stress normal hai. Par agar yeh signs kai hafton tak rahein, ya roz ki life mushkil ho jaaye, toh kisi trusted insaan se baat karo. Neeche diye tools aur Help page hamesha aapke saath hain." },
+      { type: "grounding", tag: "Tool 1", title: "5-4-3-2-1 Grounding",
+        intro: "Jab bahut ghabrahat ho ya mann bhaag raha ho, yeh tool aapko abhi aur yahan wapas laata hai. Abhi 2 minute try karo." },
+      { type: "breathing", tag: "Tool 2", title: "Box Breathing",
+        intro: "Jaldi stress kam karne ke liye. Exam se pehle bhi kar sakte ho. 4 se 5 round karo." },
+      { type: "fields", tag: "Tool 3 · Reality Check", title: "Jab soch ghoomne lage",
+        q: "Jab dimaag kahe \"Main fail ho jaunga, life khatam\", in teen sawaalon se check karo.",
+        key: "mw1_reality", private: true,
+        fields: [
+          { k: "thought", label: "Mera pareshan karne wala thought", ph: "Jaise: Main boards mein fail ho jaungi", area: true },
+          { k: "true", label: "Kya yeh 100% sach hai, ya sirf feeling hai?", area: true },
+          { k: "evidence", label: "Evidence check: pehle kya hua tha?", ph: "Pehle bhi exams diye, pass hua/hui. Is baar bhi ho sakta hai.", area: true },
+          { k: "worst", label: "Worst case bhi ho, toh mere options kya hain?", ph: "Life khatam nahi hogi. Options hain.", area: true }
+        ] },
+      { type: "fields", tag: "Tool 4 · Support Team", title: "Meri Support Team",
+        q: "3 log jinse aap baat kar sakte ho. Naam aur number likho. Yeh Help page par hamesha dikhenge.",
+        key: "support", private: true,
+        fields: [
+          { k: "friend", label: "Ek dost jo samajhta hai", ph: "Naam" }, { k: "friend_no", label: "Number (optional)", ph: "98xxxxxxxx", tel: true },
+          { k: "family", label: "Ek family member (bhai, behen, chacha, mausi, koi bhi)", ph: "Naam" }, { k: "family_no", label: "Number (optional)", tel: true },
+          { k: "adult", label: "Ek trusted adult (teacher, YRC coordinator, padosi)", ph: "Naam" }, { k: "adult_no", label: "Number (optional)", tel: true }
+        ] },
+      { type: "roleplay", tag: "Role-play", title: "Practice: pyaar se na kehna, sach bolna",
+        q: "Pair mein practice karo. Pehle khud jawab likho, phir example dekho.",
+        key: "mw1_rp",
+        cards: [
+          { who: "Dost", line: "Yaar chal movie dekh lete hain, kya padhai kar raha hai pura din.", task: "Pyaar se na kaho, dost ko bura na lage.", sample: "Bro, main bhi jaana chahta hoon par kal test hai. Kal evening pakka chalenge. Deal?" },
+          { who: "Dost", line: "Tu tension kyun le raha/rahi hai itna? Bas 10th hai, fail bhi ho gaye toh kya ho jayega?", task: "Bina defensive hue samjhao ki boards aapke liye kyun important hain.", sample: "Mujhe pata hai tu mera tension kam karna chahta hai. Par mere liye yeh important hai, main apne liye achha karna chahti hoon. Exam ke baad milke celebrate karenge." },
+          { who: "Parent", line: "Beta Yadav aunty ki beti 95% laayi. Tum kitna laoge?", task: "Imaandari se baat karo.", sample: "Papa, main bhi mehnat kar raha hoon. Mera target 80% hai. Main apna best de raha hoon." }
+        ] },
+      { type: "commit", tag: "Action plan", title: "Mera vaada khud se",
+        key: "mw1_commit", private: true,
+        items: ["Main roz ek breathing technique practice karunga/karungi","Bahut overwhelmed lage toh apni support team se baat karunga/karungi","Yaad rakhunga/rakhungi: ek exam meri worth decide NAHI karta","Coping tools kam se kam ek dost ke saath share karunga/karungi"],
+        after: "Helpline numbers Help page par hain. Abhi ek number apne phone mein save kar lo." }
+    ],
+    quiz: [
+      { q: "Box breathing mein har step kitne count ka hota hai?", o: ["2","4","6","10"], a: 1, why: "Andar 4, roko 4, bahar 4, roko 4." },
+      { q: "5-4-3-2-1 grounding mein '5' ka matlab kya hai?", o: ["5 cheezein dekho","5 baar saans lo","5 dosto ko call karo","5 minute so jao"], a: 0, why: "5 dekho, 4 chhuo, 3 suno, 2 soongho, 1 swaad." },
+      { q: "Dimaag kehta hai 'Main fail ho jaunga, life khatam'. Reality Check ka pehla sawaal kya hai?", o: ["Kya yeh 100% sach hai ya sirf feeling hai?","Main kaun hoon?","Kal kya khana hai?","Kisko blame karun?"], a: 0, why: "Feeling aur fact mein farak pehchanna pehla step hai." },
+      { q: "Support Team mein kaun kaun ho sakta hai?", o: ["Sirf parents","Ek dost, ek family member, ek trusted adult","Koi nahi","Sirf social media followers"], a: 1, why: "Teen alag log taaki hamesha koi na koi ho." },
+      { q: "Kal test hai aur dost movie ke liye bol raha hai. Sabse accha jawab?", o: ["Chup ho jao aur chale jao","Gussa ho jao","Main bhi jaana chahta hoon par kal test hai. Kal evening pakka chalenge. Deal?","Jhooth bolo ki beemar ho"], a: 2, why: "Na bhi kaha, dosti bhi bachi, aur alternative plan bhi diya." },
+      { q: "Inmein se kya sach hai?", o: ["Ek exam aapki puri worth decide karta hai","Stress feel karna kamzori hai","Ek exam aapki worth decide NAHI karta","Madad maangna galat hai"], a: 2, why: "Aap apne marks se kahin zyada ho." }
+    ],
+    checklist: ["Main ek breathing technique kar sakta/sakti hoon","Maine 5-4-3-2-1 grounding try kiya","Maine apni Support Team ke 3 naam likhe","Maine ek helpline number phone mein save kiya","Maine ek role-play practice ki"]
+  },
+
+  /* ---------------- MW SESSION 2 ---------------- */
+  {
+    id: "mw2", no: 2, mins: 60, cert: "Parental Expectations and Future Anxiety",
+    title: "Parental Expectations & Future Anxiety", en: "Parents, ummeedein aur mera raasta",
+    objectives: [
+      "Parents ka nazariya samajhna, apni feelings ki izzat karte hue",
+      "Parents se apni baat achhe se kehna",
+      "Future ke darr ko practical planning se handle karna",
+      "Apne raaste par confidence"
+    ],
+    steps: [
+      { type: "fields", tag: "Activity · Expectation Wall", title: "Parents kya chahte hain, main kya chahta/chahti hoon",
+        q: "Example: Parents: Doctor ya Engineer banna. Main: Design karna chahta hoon. Common ground: Stable career. Ab apna likho.",
+        key: "mw2_wall", private: true,
+        fields: [
+          { k: "parents", label: "Parents expect karte hain", area: true },
+          { k: "me", label: "Main chahta/chahti hoon", area: true },
+          { k: "common", label: "Common ground: dono kahan milte hain?", area: true }
+        ],
+        tip: "Chart paper par teen columns banao. Students sticky notes lagayein, phir overlaps par baat karo." },
+      { type: "story", tag: "Kahani", title: "Rahul: engineering ya music?",
+        story: `<p>Rahul 12th mein hai. Uske papa ne bahut mushkil se uski padhai karayi hai. Factory mein overtime karte hain. Sab kehte hain: "Rahul engineer banega, family ki kismat badlega."</p>
+<p>Par Rahul ko engineering mein interest nahi hai. Usko music pasand hai. YouTube par videos banakar upload karta hai, followers badh rahe hain. Par ghar par yeh baat nahi kar sakta. Papa gussa ho jayenge: "Yeh sab timepass hai. Padhai par dhyan do."</p>
+<p>Rahul ko sapne mein bhi dikhta hai ki JEE mein fail ho gaya. Papa ka disappointed chehra. Woh kisi se baat nahi kar pata. Akele mein chhupkar videos banata hai. Bas wohi time hai jab thoda better feel karta hai.</p>`,
+        questions: ["Rahul ki situation mein dilemma kya hai?","Kya parents ki expectation galat hai? Ya Rahul ka passion galat hai?","Agar aap Rahul hote, kya karte?","Kya parents ko samjhana possible hai? Kaise?"],
+        key: "mw2_rahul" },
+      { type: "rules", tag: "Communication skills", title: "Parents se baat karne ki 4 strategies",
+        rules: [
+          { h: "Sahi time chuno", b: "Galat: papa abhi kaam se thake hue aaye hain, ya marks par jhagda chal raha hai. Sahi: weekend ki shaam jab sab relaxed hon, khane ke baad saath baithe hon." },
+          { h: "'I' statements use karo", b: "\"Aap hamesha compare karte ho!\" ki jagah kaho: \"Jab aap Sharma uncle ke bete se compare karte ho, mujhe bura lagta hai. Main bhi mehnat kar raha hoon.\"" },
+          { h: "Unki mehnat ko maano", b: "Gratitude se shuru karo: \"Papa, main jaanta hoon aap kitni mehnat karte ho mere liye. Main appreciate karta hoon. Par main ek baat share karna chahta hoon...\"" },
+          { h: "Sirf bolo mat, dikhao", b: "Alag career chahiye? Research karke dikhao: salary, opportunities, success stories. Us field ke kisi insaan se milwao. Apna kaam dikhao. Backup plan do: \"Main yeh karunga, BUT degree bhi complete karunga.\"" }
+        ] },
+      { type: "builder", tag: "Activity", title: "Apna 'I' statement banao",
+        key: "mw2_istatement", private: true,
+        parts: [
+          { k: "when", pre: "Jab aap", ph: "mujhe doosron se compare karte ho" },
+          { k: "feel", pre: "mujhe", ph: "bura lagta hai" },
+          { k: "need", pre: "Main chahta/chahti hoon ki", ph: "aap meri mehnat bhi dekhein" }
+        ] },
+      { type: "roleplay", tag: "Role-play", title: "Mushkil baatein, practice ke saath",
+        q: "Pair mein: ek parent bane, ek student. Har role-play ke baad socho: kya achha gaya, kya mushkil tha? Phir dobara try karo.",
+        key: "mw2_rp",
+        cards: [
+          { who: "Parent", line: "Sharma uncle ka beta 95% laaya boards mein. Tumse kitna aayega? Hum kitni mehnat kar rahe hain tumhare liye!", task: "'I' statement use karo. Unki mehnat maano. Realistic target batao.", sample: "Papa, main jaanta hoon aap mere liye kitni mehnat karte ho. Jab compare hota hai toh mujhe bura lagta hai, kyunki main bhi poori mehnat kar raha hoon. Mera realistic target 75% hai, aur main uske liye roz padh raha hoon." },
+          { who: "Parent", line: "Engineering kar le beta. Isme scope hai. Arts mein kya rakha hai? Tumhare dost Rohit ne bhi engineering li.", task: "Apna asli interest batao. Research dikhao. Compromise propose karo.", sample: "Papa, mujhe design mein interest hai. Maine research ki hai: is field mein yeh jobs aur itni salary hai. Main degree bhi poori karungi aur saath mein portfolio banaungi. Kya hum ek baar kisi designer se mil sakte hain?" },
+          { who: "Aap", line: "Aapko parents ko batana hai ki pressure aapki mental health par asar daal raha hai.", task: "Sahi time chuno, gratitude se shuru karo, apni feeling saaf batao.", sample: "Mummy, papa, aap mere liye bahut karte ho, mujhe pata hai. Main ek baat share karna chahti hoon. Aajkal mujhe bahut pressure feel hota hai, neend nahi aati. Main achha karna chahti hoon, par mujhe aapka saath chahiye, sirf marks ki baat nahi." }
+        ] },
+      { type: "read", tag: "Future ka darr", title: "Darr ko reality check do",
+        html: `<div class="reframe"><p class="q">"Agar boards mein kam marks aaye toh life khatam ho jayegi."</p>
+<p class="a">Ek exam mujhe define nahi karta. Second attempts hain, diploma courses hain, skill training hai, apna kaam shuru karna hai. Bahut options hain.</p></div>` },
+      { type: "fields", tag: "Action plan", title: "Mera Plan A, B aur C",
+        q: "Ek se zyada plan hone se anxiety kam hoti hai. Flexibility kamzori nahi, taakat hai.",
+        key: "mw2_plans", private: true,
+        fields: [
+          { k: "a", label: "Plan A: ideal scenario", area: true },
+          { k: "b", label: "Plan B: agar Plan A na chale", area: true },
+          { k: "c", label: "Plan C: ek aur raasta", area: true }
+        ] }
+    ],
+    quiz: [
+      { q: "Parents se important baat karne ka sabse accha time kab hai?", o: ["Jab papa abhi kaam se thake hue aaye hon","Marks par jhagde ke beech","Weekend ki shaam jab sab relaxed hon","Kabhi nahi"], a: 2, why: "Sab relaxed hon toh baat sunne ka mann hota hai." },
+      { q: "Inmein se 'I' statement kaunsa hai?", o: ["Aap hamesha compare karte ho!","Jab aap compare karte ho, mujhe bura lagta hai. Main bhi mehnat kar raha hoon.","Aap kuch nahi samajhte","Sab parents aise hi hote hain"], a: 1, why: "'I' statement apni feeling batata hai, blame nahi karta." },
+      { q: "Alag career ke liye parents ko kaise samjhayein?", o: ["Gussa karke","Research, kaam aur backup plan dikhakar","Ghar chhodkar","Baat hi na karke"], a: 1, why: "Show, don't just tell: research, portfolio, aur backup plan." },
+      { q: "Plan A, B aur C kyun banate hain?", o: ["Kyunki Plan A kabhi nahi chalta","Ek se zyada plan hone se anxiety kam hoti hai","Teacher ne bola","Time pass ke liye"], a: 1, why: "Options hain, toh darr kam hota hai." },
+      { q: "Mushkil baat shuru kaise karein?", o: ["Gratitude se: Papa, main jaanta hoon aap kitni mehnat karte ho","Shikayat se","Doosron ki misaal dekar","Chillakar"], a: 0, why: "Pehle unki mehnat maano, phir apni baat kaho." }
+    ],
+    checklist: ["Maine Expectation Wall bhari","Maine apna ek 'I' statement banaya","Maine ek mushkil conversation ki practice ki","Maine apna Plan A, B aur C likha"]
+  }
+  ]
+}
+];
+
+const HELPLINES = [
+  { name: "Tele-MANAS (Govt. of India)", tel: "14416", alt: "1-800-891-4416", time: "24/7 · free · Hindi aur kai bhashayein" },
+  { name: "iCall Psychosocial Helpline", tel: "9152987821", alt: "022-25521111", time: "Mon to Sat, 8 am to 10 pm" },
+  { name: "NIMHANS Helpline", tel: "08046110007", show: "080-46110007", time: "24/7" },
+  { name: "AIIMS Psychiatry OPD", tel: "01126588500", show: "011-26588500", time: "Weekdays 9 am to 5 pm" },
+  { name: "IHBAS", tel: "01125380000", show: "011-25380000", time: "Weekdays 9 am to 5 pm" }
+];
+
+const LIB_CATS = ["Study & Homework","English Learning","Career & Skills","Personal Development","Creative & Fun"];
+
+const ENGLISH_DAILY = [
+  { h: "3 naye words", p: "Teach me 3 new English words related to daily life. Give Hindi meaning, example sentence, and how to use them." },
+  { h: "2 se 3 sentences, grammar check", p: "Check this sentence for grammar mistakes and explain errors in Hinglish: [your sentence]" },
+  { h: "Chhoti conversation", p: "I want to practice English conversation. You play the role of a friend, and I'll practice talking to you. Correct my English mistakes, but keep the conversation natural." }
+];
+
+</script>
+<script>
+/* Lead Forward · Facilitator Portal */
+const API = "https://script.google.com/macros/s/AKfycbxsig2YWce0wBa_a6s0o0GvESKZRiVRwNQjqImKQRe3B-BXUl156UKq1CuSaR7BpeeQ/exec";
+const KEYSTORE = "lf_fac_key";
+const APPSTORE = "leadforward_lms_v1";
+
+const $ = (s, el=document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const pad = n => String(n).padStart(2,"0");
+const DAY = 86400000;
+
+let KEY = null, DATA = null, ST = { tab:"dashboard", batch:"ALL", q:"", sort:"last", dir:-1, loading:false, err:"" };
+
+function getKey(){ try { return sessionStorage.getItem(KEYSTORE) || localStorage.getItem(KEYSTORE); } catch(e){ return null; } }
+function setKey(k, remember){ try { sessionStorage.setItem(KEYSTORE, k); if(remember) localStorage.setItem(KEYSTORE, k); } catch(e){} }
+function clearKey(){ try { sessionStorage.removeItem(KEYSTORE); localStorage.removeItem(KEYSTORE); } catch(e){} }
+async function call(body){
+  const r = await fetch(API, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body: JSON.stringify(body) });
+  return r.json();
+}
+function appFac(on){
+  try { const s = JSON.parse(localStorage.getItem(APPSTORE)) || { profiles:{}, current:null, queue:[], fac:false };
+    if(on === undefined) return !!s.fac; s.fac = on; localStorage.setItem(APPSTORE, JSON.stringify(s)); return on; } catch(e){ return false; }
+}
+
+const WORDMARK = `<div class="wm"><span class="wm-word">LeadN<svg class="wm-o" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.6" fill="none" stroke="#E84855" stroke-width="3"/><path d="M8.2 12h7M12.6 8.8l3.2 3.2-3.2 3.2" fill="none" stroke="#E84855" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>w</span><span class="wm-f">FOUNDATION</span></div>`;
+
+/* ---------------- session catalogue ---------------- */
+const SESS = TRACKS.flatMap(t => t.sessions.map(s => ({ id:s.id, track:t, s, label:`${t.title} ${s.no}. ${s.title}` })));
+
+/* ---------------- data shaping ---------------- */
+function toDate(v){ if(!v) return null; const d = new Date(v); return isNaN(d) ? null : d; }
+function students(){
+  if(!DATA) return [];
+  return DATA.students.map(r => {
+    const sessions = String(r[8]||"").split("\n").filter(Boolean);
+    const quiz = {}; String(r[9]||"").split("\n").filter(Boolean).forEach(l => { const i=l.lastIndexOf(": "); const [a,b] = l.slice(i+2).split("/").map(Number); quiz[l.slice(0,i)] = { a, b }; });
+    const qs = Object.values(quiz).filter(x=>x.b);
+    return { code:r[0], name:r[1], batch:String(r[2]||"").toUpperCase(), age:r[3], joined:toDate(r[4]), last:toDate(r[5]),
+      ai:Number(r[6])||0, mw:Number(r[7])||0, sessions, quiz, eng:Number(r[10])||0, certs:String(r[11]||"").split(", ").filter(Boolean),
+      quizPct: qs.length ? Math.round(qs.reduce((s,x)=>s+x.a/x.b,0)/qs.length*100) : null };
+  });
+}
+function filtered(){ const all = students(); return ST.batch === "ALL" ? all : all.filter(s => s.batch === ST.batch); }
+function batches(){ return [...new Set(students().map(s=>s.batch).filter(Boolean))].sort(); }
+function ago(d){ if(!d) return "Never"; const n = Math.floor((Date.now()-d)/DAY); return n<=0 ? "Today" : n===1 ? "Yesterday" : `${n} days ago`; }
+
+/* ---------------- screens ---------------- */
+function renderLogin(){
+  return `<div class="login">
+    <div class="login-l">${WORDMARK}<p class="eyebrow">Lead Forward · Youth Resource Centre</p><h1>Facilitator<br><em>Portal</em></h1>
+      <p class="sub">Track how your learners are doing, and find everything you need to run the AI Seekho and Mann Ki Baat sessions.</p></div>
+    <form class="login-r" id="loginf">
+      <h2>Sign in</h2>
+      <label>Facilitator password<input type="password" name="key" autocomplete="current-password" required autofocus></label>
+      <label class="chk"><input type="checkbox" name="remember"> Keep me signed in on this device</label>
+      ${ST.err ? `<p class="err">${esc(ST.err)}</p>` : ""}
+      <button class="btn coral" ${ST.loading?"disabled":""}>${ST.loading ? "Checking..." : "Sign in"}</button>
+      <p class="fine">Only for Lead Now facilitators. This portal shows young people's personal data; don't share your screen or the password outside the programme team.</p>
+      <a class="back" href="../">← Back to the student app</a>
+    </form>
+  </div>`;
+}
+
+function shell(inner){
+  const tabs = [["dashboard","Dashboard"],["guide","Facilitator Guide"],["sessions","Session Plans"]];
+  return `<header class="top">${WORDMARK}<nav>${tabs.map(([k,l])=>`<button data-a="tab" data-v="${k}" class="${ST.tab===k?"on":""}">${l}</button>`).join("")}</nav>
+    <div class="top-r"><a href="../" class="lnk">Student app ↗</a><button data-a="logout" class="lnk">Sign out</button></div></header>
+  <main class="main">${inner}</main><div id="tip" class="tip" role="tooltip"></div>`;
+}
+
+/* ---------- dashboard ---------- */
+function renderDashboard(){
+  if(!DATA) return `<section class="pad"><p class="muted">${ST.loading ? "Loading progress from the Google Sheet..." : esc(ST.err || "No data yet.")}</p></section>`;
+  const list = filtered(), N = list.length, now = Date.now();
+  const active7 = list.filter(s => s.last && now - s.last < 7*DAY).length;
+  const quiet = list.filter(s => !s.last || now - s.last >= 14*DAY);
+  const noStart = list.filter(s => s.sessions.length === 0);
+  const aiCert = list.filter(s => s.certs.includes("AI Seekho")).length, mwCert = list.filter(s => s.certs.includes("Mann Ki Baat")).length;
+  const qp = list.filter(s => s.quizPct !== null), avgQuiz = qp.length ? Math.round(qp.reduce((a,s)=>a+s.quizPct,0)/qp.length) : null;
+
+  const comp = SESS.map(x => { const n = list.filter(s => s.sessions.includes(x.label)).length; return { x, n, pct: N ? Math.round(n/N*100) : 0 }; });
+  const quizBy = SESS.map(x => { const v = list.map(s => s.quiz[x.label]).filter(Boolean); const pct = v.length ? Math.round(v.reduce((a,q)=>a+q.a/q.b,0)/v.length*100) : null; return { x, n:v.length, pct }; });
+
+  // activity: distinct active students per day, last 30 days
+  const codes = new Set(list.map(s=>s.code)), days = [];
+  for(let i=29;i>=0;i--){ const d = new Date(now - i*DAY); days.push({ key:d.toISOString().slice(0,10), d, set:new Set() }); }
+  const idx = Object.fromEntries(days.map((d,i)=>[d.key,i]));
+  DATA.events.forEach(e => { const d = toDate(e[0]); if(!d) return; const k = new Date(d.getTime()+5.5*3600000).toISOString().slice(0,10); if(k in idx && codes.has(e[1])) days[idx[k]].set.add(e[1]); });
+  const maxDay = Math.max(1, ...days.map(d=>d.set.size));
+
+  const rows = list.filter(s => !ST.q || (s.name+" "+s.code).toLowerCase().includes(ST.q.toLowerCase()));
+  const key = { name:s=>s.name.toLowerCase(), batch:s=>s.batch, ai:s=>s.ai, mw:s=>s.mw, quiz:s=>s.quizPct??-1, eng:s=>s.eng, last:s=>s.last?s.last.getTime():0 }[ST.sort];
+  rows.sort((a,b) => (key(a)>key(b)?1:key(a)<key(b)?-1:0) * ST.dir);
+  const th = (k,l,cls="") => `<th class="${cls}"><button data-a="sort" data-v="${k}">${l}${ST.sort===k?(ST.dir>0?" ↑":" ↓"):""}</button></th>`;
+
+  return `<section class="filters">
+    <label>Batch <select data-a="batch">${["ALL",...batches()].map(b=>`<option value="${esc(b)}" ${ST.batch===b?"selected":""}>${b==="ALL"?"All batches":esc(b)}</option>`).join("")}</select></label>
+    <span class="upd">Updated ${DATA.generated ? new Date(DATA.generated).toLocaleTimeString("en-IN",{hour:"numeric",minute:"2-digit"}) : ""}</span>
+    <button class="btn line sm" data-a="refresh" ${ST.loading?"disabled":""}>${ST.loading?"Refreshing...":"Refresh"}</button>
+    <a class="btn line sm" href="${esc(DATA.sheetUrl)}" target="_blank" rel="noopener">Open Google Sheet ↗</a>
+    <button class="btn line sm" data-a="csv">Download CSV</button>
+  </section>
+
+  <section class="kpis">
+    ${kpi(N, "Learners enrolled", ST.batch==="ALL"?"All batches":ST.batch)}
+    ${kpi(active7, "Active in last 7 days", N?`${Math.round(active7/N*100)}% of learners`:"")}
+    ${kpi(aiCert, "AI Seekho certificates", "All 4 sessions done")}
+    ${kpi(mwCert, "Mann Ki Baat certificates", "Both sessions done")}
+    ${kpi(avgQuiz===null?"·":avgQuiz+"%", "Average quiz score", "Best attempt per session")}
+  </section>
+
+  ${N === 0 ? `<section class="empty"><h2>No learners yet</h2><p>As soon as students sign up in the app with their batch code, they'll appear here. Use <b>Refresh</b> to pull the latest data.</p></section>` : `
+  <section class="grid2">
+    <div class="panel"><h3>Session completion</h3><p class="cap">Share of enrolled learners who finished each session</p>
+      ${hbars(comp.map(c=>({ label:`${c.x.track.title} ${pad(c.x.s.no)}`, sub:c.x.s.title, pct:c.pct, val:`${c.n}/${N}`, tip:`${c.x.s.title}: ${c.n} of ${N} learners (${c.pct}%)` })))}</div>
+    <div class="panel"><h3>Quiz scores by session</h3><p class="cap">Average best score, among learners who took the quiz</p>
+      ${hbars(quizBy.map(c=>({ label:`${c.x.track.title} ${pad(c.x.s.no)}`, sub:c.x.s.title, pct:c.pct??0, val:c.pct===null?"No attempts":`${c.pct}%`, empty:c.pct===null, tip:c.pct===null?`${c.x.s.title}: no quiz attempts yet`:`${c.x.s.title}: ${c.pct}% average across ${c.n} learners` })))}</div>
+  </section>
+
+  <section class="panel">
+    <h3>Daily active learners</h3><p class="cap">Learners who did anything in the app, last 30 days</p>
+    <div class="cols">${days.map((d,i)=>`<div class="col" data-tip="${d.d.toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"})}: ${d.set.size} learner${d.set.size===1?"":"s"}"><i style="height:${d.set.size/maxDay*100}%"></i></div>`).join("")}</div>
+    <div class="cols-x"><span>${days[0].d.toLocaleDateString("en-IN",{day:"numeric",month:"short"})}</span><span>Today</span></div>
+  </section>
+
+  ${quiet.length || noStart.length ? `<section class="panel attn"><h3>Needs a check-in</h3>
+    <div class="attn-g">
+      <div><h4>Not seen for 14+ days <span>${quiet.length}</span></h4><ul>${quiet.slice(0,12).map(s=>`<li><b>${esc(s.name)}</b> ${esc(s.batch)} · ${ago(s.last)}</li>`).join("") || "<li class='muted'>None</li>"}</ul></div>
+      <div><h4>Signed up, no session finished <span>${noStart.length}</span></h4><ul>${noStart.slice(0,12).map(s=>`<li><b>${esc(s.name)}</b> ${esc(s.batch)} · joined ${ago(s.joined)}</li>`).join("") || "<li class='muted'>None</li>"}</ul></div>
+    </div></section>` : ""}
+
+  <section class="panel">
+    <div class="tbl-h"><h3>Learners</h3><input type="search" placeholder="Search name or ID" value="${esc(ST.q)}" data-a="q"></div>
+    <div class="tbl-w"><table class="tbl"><thead><tr>${th("name","Name")}<th>ID</th>${th("batch","Batch")}<th>Age</th>${th("ai","AI Seekho","n")}${th("mw","Mann Ki Baat","n")}${th("quiz","Quiz avg","n")}${th("eng","English days","n")}${th("last","Last active")}<th>Certificates</th></tr></thead>
+    <tbody>${rows.map(s=>`<tr><td><b>${esc(s.name)}</b></td><td class="mono">${esc(s.code)}</td><td>${esc(s.batch)}</td><td>${esc(s.age)}</td>
+      <td class="n">${prog(s.ai,4)}</td><td class="n">${prog(s.mw,2)}</td><td class="n">${s.quizPct===null?"·":s.quizPct+"%"}</td><td class="n">${s.eng}</td>
+      <td class="${!s.last||Date.now()-s.last>=14*DAY?"warnc":""}">${ago(s.last)}</td><td>${s.certs.map(c=>`<span class="cert">${esc(c)}</span>`).join(" ")}</td></tr>`).join("")}</tbody></table></div>
+    <p class="cap">${rows.length} of ${N} learners shown. Diary entries and reflections stay on students' phones and are never collected.</p>
+  </section>`}`;
+}
+const kpi = (v,l,s) => `<div class="kpi"><span class="kv">${esc(v)}</span><span class="kl">${esc(l)}</span><span class="ks">${esc(s)}</span></div>`;
+const prog = (n,t) => `<span class="pg"><span class="pg-b"><i style="width:${n/t*100}%"></i></span>${n}/${t}</span>`;
+function hbars(items){
+  return `<ul class="hb">${items.map(it=>`<li data-tip="${esc(it.tip)}"><span class="hb-l"><b>${esc(it.label)}</b><small>${esc(it.sub)}</small></span>
+    <span class="hb-t"><i style="width:${it.pct}%"></i></span><span class="hb-v ${it.empty?"muted":""}">${esc(it.val)}</span></li>`).join("")}</ul>`;
+}
+
+/* ---------- guide ---------- */
+const GUIDE = [
+  { id:"model", h:"How the programme works", html:`
+    <p class="lead">Lead Forward is <b>blended</b>. You run each session live at the YRC, and learners follow the same session step by step on their phones. Between sessions they use the app's Toolkit to practise on their own.</p>
+    <div class="three"><div><h4>Before</h4><p>Check devices and internet, share the batch code, and open the session plan for today.</p></div>
+    <div><h4>During</h4><p>Lead from the front. Learners move through the steps with you, do the activities in pairs or groups, then take the quiz and self-check.</p></div>
+    <div><h4>After</h4><p>Check the dashboard, follow up with anyone who missed a session or scored low, and remind learners of their homework.</p></div></div>
+    <table class="kv"><tr><th>Student app</th><td><a href="../">leadnowfoundation.org/learn</a></td></tr>
+    <tr><th>AI Seekho</th><td>4 sessions · 6.5 hours · Hinglish</td></tr>
+    <tr><th>Mann Ki Baat</th><td>2 sessions · about 2 hours · Hinglish · ages 14 to 17</td></tr>
+    <tr><th>Progress data</th><td>Google Sheet "Lead Forward LMS Progress" (link on the Dashboard)</td></tr></table>` },
+  { id:"before", h:"Before the first session", html:`
+    <ol class="steps">
+      <li><b>Choose a batch code</b> for the cohort, for example <code>DKP-NOV26</code>. Use the same code for everyone in the group so the dashboard can filter by batch.</li>
+      <li><b>Collect parent or guardian consent</b> for every learner under 18. The app records name, batch, age and progress.</li>
+      <li><b>Check the devices.</b> At least one smartphone for every 2 or 3 learners. Chrome works best. Each phone can hold several learner profiles, and learners can set a 4-digit PIN.</li>
+      <li><b>Check the internet.</b> Learners need it to open the app the first time. After that it works offline and syncs later.</li>
+      <li><b>Decide which AI tool under-18s will use.</b> ChatGPT needs parent or guardian permission for under-18s, and Claude.ai is for adults (18+) only. Decide before AI Seekho Session 2.</li>
+      <li><b>Turn on facilitator notes</b> on your own phone or the projector laptop using the switch below. Your tips will then appear inside each session step.</li>
+      <li><b>Do a dry run.</b> Sign up as a test learner, go through Session 1, and check that it appears on the dashboard. Then remove the test row from the Sheet.</li>
+    </ol>
+    <div class="facswitch"><div><b>Facilitator notes in the student app on this device</b><p class="muted">Shows the "Facilitator note" boxes inside lessons. Turn this on only on your own device.</p></div>
+      <button class="btn ${appFac()?"coral":"line"} sm" data-a="facapp">${appFac()?"On · turn off":"Turn on"}</button></div>` },
+  { id:"signup", h:"Getting learners signed up (first 10 minutes of Session 1)", html:`
+    <ol class="steps">
+      <li>Write the app link and the batch code on the board, or share the link in the batch's WhatsApp group.</li>
+      <li>Learners open the link in Chrome and tap <b>⋮ → Add to Home screen</b>, so it opens like an app.</li>
+      <li>Each learner taps <b>Naya student</b> and enters their name, the batch code and their age. They can add an optional PIN, and they tick the consent box.</li>
+      <li>On shared phones, each learner adds their own profile. The <b>Student badlo</b> button switches between them.</li>
+      <li>Each learner gets an ID such as <code>LN-7K2QD</code> (shown under Meri Progress). It's the same ID you'll see on the dashboard.</li>
+    </ol>` },
+  { id:"run", h:"Running a session", html:`
+    <ol class="steps">
+      <li><b>Open today's session</b> on the projector or your phone, and ask learners to open the same session.</li>
+      <li><b>Move step by step together.</b> The counter at the bottom (for example 3 / 9) shows where everyone is. Use the Session Plans tab for timings.</li>
+      <li><b>Activities are done offline too.</b> Group work, presentations and the peer sharing circle happen in the room; the app holds the prompts and lets learners note their answers.</li>
+      <li><b>"Try karo" prompts</b> have a Copy button and an "Open in ChatGPT" link. Model it once on the projector, then let learners try.</li>
+      <li><b>Finish with the quiz and self-check.</b> Learners need to check their quiz before moving on. They can retake it, and the best score is kept.</li>
+      <li><b>The "Pura hua" stamp</b> marks the session complete and sends the result to the dashboard. If a learner is offline, it's sent automatically later.</li>
+    </ol>` },
+  { id:"safe", h:"Mann Ki Baat: safeguarding", html:`
+    <div class="alert"><b>If a young person is in immediate danger, call 112.</b> Stay with them and inform your Safeguarding Officer straight away.</div>
+    <ol class="steps">
+      <li><b>Set the ground rules first:</b> what's shared stays here, no judging, everyone gets time, and passing is always fine.</li>
+      <li><b>Learners' private writing stays private.</b> Diary entries, reflections, the Support Team list and Plan A/B/C never leave the learner's phone. Don't ask to see them.</li>
+      <li><b>Watch for distress:</b> a learner going very quiet, crying, leaving the room, or saying they feel hopeless. Check in privately after the session.</li>
+      <li><b>If a learner tells you something worrying:</b> listen calmly, don't promise to keep it secret, don't investigate, and tell your Safeguarding Officer the same day. Write down what was said in their own words, with the date and time.</li>
+      <li><b>Helplines</b> are always one tap away on the app's Help page: Tele-MANAS 14416 (24/7, free), iCall 9152987821, NIMHANS 080-46110007. Write at least one on the board.</li>
+      <li>Parent and community sessions (Modules 3 and 4) run offline from the facilitator guide. They aren't in the app.</li>
+    </ol>` },
+  { id:"dash", h:"Using the dashboard", html:`
+    <ul class="steps">
+      <li><b>Learners enrolled:</b> everyone who signed up with that batch code.</li>
+      <li><b>Active in last 7 days:</b> anyone who completed a step that sends data (sign-up, quiz, session finished, English practice).</li>
+      <li><b>Session completion:</b> how many learners reached the "Pura hua" stamp for each session. A big drop between two sessions tells you who to follow up with.</li>
+      <li><b>Quiz scores:</b> the average of each learner's best score. Below 60% suggests revisiting that topic in the next session.</li>
+      <li><b>Needs a check-in:</b> learners not seen for 14+ days, or who signed up but never finished a session. Follow up with them each week.</li>
+      <li>Data refreshes when you open the portal or press <b>Refresh</b>. Learners' updates arrive within a minute when they're online.</li>
+    </ul>` },
+  { id:"certs", h:"Certificates", html:`
+    <p>A learner earns a certificate when they finish every session in a track. It appears in the app under <b>Meri Progress</b>, in English, with the learner's name, ID, date and centre, and a signature line for Swati Gupta, Program Lead.</p>
+    <p>Open it on a laptop and choose <b>Print / Save as PDF</b> to print it on A4 for signing. Learners can also screenshot it on their phones.</p>` },
+  { id:"faq", h:"Troubleshooting", html:`
+    <dl class="faq">
+      <dt>A learner's progress isn't on the dashboard.</dt><dd>Their phone may be offline. Ask them to open the app with internet on and check <b>Meri Progress → Sync</b>. It says how many updates are waiting.</dd>
+      <dt>A learner cleared their browser or lost their phone.</dt><dd>Everything already sent is safe in the Sheet and dashboard. In the app they'll need to sign up again (same name and batch) and redo sessions to get the certificate.</dd>
+      <dt>Two learners share a phone.</dt><dd>Each adds their own profile. Suggest they set a PIN so their diary entries stay private.</dd>
+      <dt>Someone signed up with the wrong batch code.</dt><dd>Correct the Batch column for that learner in the Google Sheet's Students tab.</dd>
+      <dt>"ChatGPT mein kholo" doesn't work.</dt><dd>Learners can use Copy and paste the prompt into whichever AI app they're using.</dd>
+      <dt>I forgot the facilitator password.</dt><dd>The account owner can see and change it in Apps Script → Lead Forward LMS Receiver → Project Settings → Script Properties → FACILITATOR_KEY.</dd>
+    </dl>` }
+];
+function renderGuide(){
+  return `<div class="guide"><aside class="toc"><p class="eyebrow">Facilitator Guide</p>${GUIDE.map((g,i)=>`<a href="#g-${g.id}"><span>${pad(i+1)}</span>${esc(g.h)}</a>`).join("")}</aside>
+  <article class="gbody">${GUIDE.map((g,i)=>`<section id="g-${g.id}" class="gsec"><p class="gno">${pad(i+1)}</p><h2>${esc(g.h)}</h2>${g.html}</section>`).join("")}</article></div>`;
+}
+
+/* ---------- session plans ---------- */
+const RUN = {
+  ai1:{ mat:["Students' smartphones (at least one per 2 to 3 students)","Chart paper and markers","'AI in My Life' worksheet (optional: the app has it)","Example images: Google Maps, Instagram filters, YouTube home page","Intro video on AI"],
+        flow:[["15","Ice breaker: which apps do you use most? (sign-up first if it's the first class)"],["30","What is AI? Four real examples. Show the video."],["25","Group activity: AI Detective in groups of 4 to 5, then 5-minute presentations"],["15","Why learn AI: jobs, studies, new skills"],["5","Wrap up and preview of Session 2"]] },
+  ai2:{ mat:["Every learner needs access to a smartphone (pairs are fine)","Internet (Wi-Fi or mobile data)","'AI Setup Guide' handout in Hinglish","Sample problems sheet"],
+        flow:[["30","Set up ChatGPT (or the tool you've chosen for under-18s). Help learners without an email create a Gmail account."],["20","First AI conversation: you demo, then learners try"],["40","Real use cases: homework help, exam prep, career guidance (about 12 minutes each)"],["25","Group challenge: AI Problem Solvers, then 2-minute presentations"],["5","Wrap up and homework: use AI 3 times before the next session"]] },
+  ai3:{ mat:["Smartphones with the AI tool set up","Prompt library template (the app has one)"],
+        flow:[["15","What prompt engineering is, with weak vs strong prompts"],["15","The 5 golden rules and the copy-and-fill templates"],["20","Prompt Makeover in pairs"],["25","Prompt Challenge: 4 situations, test in AI, share what worked"],["15","Build a personal Prompt Library in the app"]] },
+  ai4:{ mat:["Smartphones with the AI tool set up","Voice recorder (the phone's own)"],
+        flow:[["10","Why AI is great for English"],["30","Grammar Checker and Sentence Builder"],["35","Conversation practice: role-play prompts and the Voice Note Method"],["15","Vocabulary, the 15-minute daily plan (English Daily tracker) and commitments"]] },
+  mw1:{ mat:["Open floor space for the circle game","Helpline numbers written on the board","Referral contacts ready for crisis situations"],
+        flow:[["10","Ground rules, then the Pressure Cooker game"],["15","Priya's story and group discussion (Rahul's social media story is optional)"],["15","Peer sharing circle in groups of 5 to 6. Run this in the room, not in the app."],["15","Coping tools: 5-4-3-2-1 grounding, box breathing, reality check, support team"],["10","Role-play in pairs"],["5","Action plan and helplines"]] },
+  mw2:{ mat:["Chart paper with 3 columns, and sticky notes","Helpline numbers on the board"],
+        flow:[["10","Expectation Wall"],["15","Rahul's story: engineering or music?"],["20","Communication skills: 4 strategies and the 'I' statement builder"],["15","Role-play in pairs, with debrief and a second try"],["10","Future planning: reality check, Plan A, B and C"]] }
+};
+function renderSessions(){
+  return TRACKS.map(t => `<section class="trk"><p class="eyebrow">${esc(t.sub)}</p><h2>${esc(t.title)}</h2>
+    ${t.sessions.map(s => { const r = RUN[s.id]; const total = r.flow.reduce((a,f)=>a+Number(f[0]),0);
+      return `<details class="plan"><summary><span class="pn">${pad(s.no)}</span><span class="pt"><b>${esc(s.title)}</b><small>${esc(s.en)} · ${s.mins} min in the module</small></span><span class="pc">Open plan</span></summary>
+      <div class="plan-b">
+        <div class="pcol"><h4>Learners will</h4><ul class="tk">${s.objectives.map(o=>`<li>${esc(o)}</li>`).join("")}</ul>
+        <h4>Materials</h4><ul class="tk">${r.mat.map(m=>`<li>${esc(m)}</li>`).join("")}</ul></div>
+        <div class="pcol"><h4>Run-sheet · ${total} min</h4><ol class="rs">${r.flow.map(f=>`<li><span>${f[0]} min</span>${esc(f[1])}</li>`).join("")}</ol>
+        <h4>Steps in the app</h4><ol class="app-steps">${s.steps.map(st=>`<li><small>${esc(st.tag)}</small>${esc(st.title)}${st.tip?`<em>${esc(st.tip)}</em>`:""}</li>`).join("")}<li><small>Quiz</small>${s.quiz.length} questions</li><li><small>Self-check</small>${esc(s.checklist.join(" · "))}</li></ol></div>
+      </div></details>`; }).join("")}</section>`).join("");
+}
+
+/* ---------------- render + events ---------------- */
+function render(){
+  const app = $("#app");
+  if(!KEY){ app.className = "v-login"; app.innerHTML = renderLogin(); return; }
+  app.className = "v-" + ST.tab;
+  const inner = ST.tab === "guide" ? renderGuide() : ST.tab === "sessions" ? `<div class="sess">${renderSessions()}</div>` : renderDashboard();
+  app.innerHTML = shell(inner);
+}
+
+async function load(){
+  ST.loading = true; render();
+  try {
+    const d = await call({ action:"dashboard", key:KEY });
+    if(d.ok){ DATA = d; ST.err = ""; }
+    else if(d.error === "wrong_key"){ KEY = null; clearKey(); ST.err = "Your password has changed. Please sign in again."; }
+    else ST.err = "Couldn't load data: " + (d.error || "unknown error");
+  } catch(e){ ST.err = "Couldn't reach the Google Sheet. Check your internet and press Refresh."; }
+  ST.loading = false; render();
+}
+
+document.addEventListener("submit", async e => {
+  if(e.target.id !== "loginf") return; e.preventDefault();
+  const fd = new FormData(e.target), k = String(fd.get("key")||"").trim();
+  ST.loading = true; ST.err = ""; render();
+  try {
+    const r = await call({ action:"auth", key:k });
+    if(r.ok){ KEY = k; setKey(k, !!fd.get("remember")); ST.loading = false; load(); return; }
+    ST.err = r.error === "not_configured" ? "The portal password hasn't been set up yet." : "That password isn't right. Try again.";
+  } catch(err){ ST.err = "Couldn't connect. Check your internet and try again."; }
+  ST.loading = false; render();
+});
+
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-a]"); if(!a) return;
+  const act = a.dataset.a;
+  if(act === "tab"){ ST.tab = a.dataset.v; render(); scrollTo(0,0); }
+  if(act === "logout"){ KEY = null; DATA = null; clearKey(); ST = { ...ST, tab:"dashboard", err:"" }; render(); }
+  if(act === "refresh") load();
+  if(act === "sort"){ const v = a.dataset.v; ST.dir = ST.sort === v ? -ST.dir : (v==="name"||v==="batch" ? 1 : -1); ST.sort = v; render(); }
+  if(act === "facapp"){ appFac(!appFac()); render(); }
+  if(act === "csv") downloadCsv();
+});
+document.addEventListener("change", e => { if(e.target.dataset.a === "batch"){ ST.batch = e.target.value; render(); } });
+document.addEventListener("input", e => { if(e.target.dataset.a === "q"){ ST.q = e.target.value; const pos = e.target.selectionStart; render(); const el = $("[data-a=q]"); el.focus(); el.setSelectionRange(pos,pos); } });
+
+/* tooltip */
+document.addEventListener("mousemove", e => {
+  const t = $("#tip"); if(!t) return; const h = e.target.closest("[data-tip]");
+  if(!h){ t.classList.remove("on"); return; }
+  t.textContent = h.dataset.tip; t.classList.add("on");
+  const x = Math.min(e.clientX + 14, innerWidth - t.offsetWidth - 8); t.style.left = x + "px"; t.style.top = (e.clientY + 16) + "px";
+});
+
+function downloadCsv(){
+  const head = ["Student ID","Name","Batch","Age","AI Seekho sessions","Mann Ki Baat sessions","Quiz average %","English days","Last active","Certificates"];
+  const rows = filtered().map(s => [s.code,s.name,s.batch,s.age,s.ai,s.mw,s.quizPct??"",s.eng,s.last?s.last.toISOString().slice(0,10):"",s.certs.join("; ")]);
+  const csv = [head,...rows].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+  a.download = `lead-forward-progress-${ST.batch==="ALL"?"all":ST.batch}-${new Date().toISOString().slice(0,10)}.csv`; a.click();
+}
+
+KEY = getKey(); render(); if(KEY) load();
+
+</script>
+</body>
+</html>
